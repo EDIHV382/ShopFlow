@@ -1,0 +1,148 @@
+/* ShopFlow - Main CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    @apply bg-dark-950 text-dark-100 antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary-500/30 text-primary-100;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-500;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-950 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-primary-600 to-primary-500 text-white hover:from-primary-500 hover:to-primary-400 focus:ring-primary-500 shadow-glow hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply btn bg-dark-800 text-dark-100 border border-dark-700 hover:bg-dark-700 hover:border-dark-600 focus:ring-dark-500;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-500 focus:ring-red-500;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-md {
+    @apply px-6 py-3 text-base;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-dark-900 border border-dark-800 rounded-2xl shadow-card transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card hover:border-dark-700 hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  /* Form inputs */
+  .input {
+    @apply w-full bg-dark-800 border border-dark-700 text-dark-100 rounded-xl px-4 py-3
+           placeholder:text-dark-500 focus:outline-none focus:ring-2 focus:ring-primary-500
+           focus:border-primary-500 transition-all duration-200;
+  }
+
+  .input-error {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-dark-300 mb-1.5;
+  }
+
+  .error-msg {
+    @apply text-red-400 text-xs mt-1 flex items-center gap-1;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .badge-sold-out {
+    @apply badge bg-red-500/20 text-red-400 border border-red-500/30;
+  }
+
+  .badge-pending {
+    @apply badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
+  }
+
+  .badge-processing {
+    @apply badge bg-blue-500/20 text-blue-400 border border-blue-500/30;
+  }
+
+  .badge-shipped {
+    @apply badge bg-purple-500/20 text-purple-400 border border-purple-500/30;
+  }
+
+  .badge-delivered {
+    @apply badge bg-green-500/20 text-green-400 border border-green-500/30;
+  }
+
+  .badge-cancelled {
+    @apply badge bg-gray-500/20 text-gray-400 border border-gray-500/30;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Section container */
+  .container-page {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply animate-pulse bg-dark-800 rounded-xl;
+  }
+}

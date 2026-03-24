@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Build outputs
+client/.output/
+client/.nuxt/
+client/dist/
+
+# Symfony
+server/var/
+server/config/jwt/private.pem
+server/config/jwt/public.pem
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+.vercel

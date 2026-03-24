@@ -1,0 +1,35 @@
+{
+  "name": "shopflow-client",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.11.4",
+    "@pinia/nuxt": "^0.5.1",
+    "@stripe/stripe-js": "^3.0.6",
+    "@vee-validate/zod": "^4.12.5",
+    "nuxt": "^3.11.2",
+    "pinia": "^2.1.7",
+    "vee-validate": "^4.12.5",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "vue-toastification": "^2.0.0-rc.5",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@types/node": "^20.11.25",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.2",
+    "vue-tsc": "^2.0.6"
+  }
+}
