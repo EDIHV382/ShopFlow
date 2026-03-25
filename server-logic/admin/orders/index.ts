@@ -1,6 +1,6 @@
 // GET /api/admin/orders — all orders (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query } from '../_lib/db';
+import { query } from '../../_lib/db';
 import { setCorsHeaders, handleOptions, requireAdmin, getPagination } from '../../_lib/middleware';
 import type { Order } from '../../_lib/types';
 
