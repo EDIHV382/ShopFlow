@@ -1,8 +1,8 @@
 // GET /api/auth/me — returns current authenticated user
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { queryOne } from '../_lib/db.js';
-import { requireAuth, setCorsHeaders, handleOptions } from '../_lib/middleware.js';
-import type { User } from '../_lib/types.js';
+import { queryOne } from '../_lib/db';
+import { requireAuth, setCorsHeaders, handleOptions } from '../_lib/middleware';
+import type { User } from '../_lib/types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) return;

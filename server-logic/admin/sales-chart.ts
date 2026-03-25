@@ -1,7 +1,7 @@
 // GET /api/admin/sales-chart?days=30 — daily sales aggregation for chart
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query } from '../../_lib/db.js';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../../_lib/middleware.js';
+import { query } from '../../_lib/db';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../../_lib/middleware';
 
 interface SalesChartDay {
   date: string;

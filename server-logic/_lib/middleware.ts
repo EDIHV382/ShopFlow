@@ -2,8 +2,8 @@
 // Handles auth extraction, CORS, and role checks
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyToken, extractBearerToken } from './auth.js';
-import type { JwtPayload } from './types.js';
+import { verifyToken, extractBearerToken } from './auth';
+import type { JwtPayload } from './types';
 
 /** Sets CORS headers — allows the Nuxt client to call the API */
 export function setCorsHeaders(res: VercelResponse): void {

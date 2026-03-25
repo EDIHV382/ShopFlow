@@ -2,26 +2,26 @@ import express from 'express';
 import cors from 'cors';
 
 // Import all route handlers
-import products from '../server-logic/products/index.js';
-import productsId from '../server-logic/products/[id].js';
-import categories from '../server-logic/categories/index.js';
-import categoriesId from '../server-logic/categories/[id].js';
-import authLogin from '../server-logic/auth/login.js';
-import authRegister from '../server-logic/auth/register.js';
-import authMe from '../server-logic/auth/me.js';
-import authLogout from '../server-logic/auth/logout.js';
-import cart from '../server-logic/cart/index.js';
-import cartItems from '../server-logic/cart/items/index.js';
-import cartItemsId from '../server-logic/cart/items/[id].js';
-import orders from '../server-logic/orders/index.js';
-import ordersId from '../server-logic/orders/[id].js';
-import adminDash from '../server-logic/admin/dashboard.js';
-import adminUsers from '../server-logic/admin/users.js';
-import adminOrders from '../server-logic/admin/orders/index.js';
-import adminOrdersStatus from '../server-logic/admin/orders/[id]/status.js';
-import adminSalesChart from '../server-logic/admin/sales-chart.js';
-import stripeIntent from '../server-logic/stripe/create-payment-intent.js';
-import stripeWebhook from '../server-logic/stripe/webhook.js';
+import products from '../server-logic/products/index';
+import productsId from '../server-logic/products/[id]';
+import categories from '../server-logic/categories/index';
+import categoriesId from '../server-logic/categories/[id]';
+import authLogin from '../server-logic/auth/login';
+import authRegister from '../server-logic/auth/register';
+import authMe from '../server-logic/auth/me';
+import authLogout from '../server-logic/auth/logout';
+import cart from '../server-logic/cart/index';
+import cartItems from '../server-logic/cart/items/index';
+import cartItemsId from '../server-logic/cart/items/[id]';
+import orders from '../server-logic/orders/index';
+import ordersId from '../server-logic/orders/[id]';
+import adminDash from '../server-logic/admin/dashboard';
+import adminUsers from '../server-logic/admin/users';
+import adminOrders from '../server-logic/admin/orders/index';
+import adminOrdersStatus from '../server-logic/admin/orders/[id]/status';
+import adminSalesChart from '../server-logic/admin/sales-chart';
+import stripeIntent from '../server-logic/stripe/create-payment-intent';
+import stripeWebhook from '../server-logic/stripe/webhook';
 
 const app = express();
 app.use(cors());
@@ -29,7 +29,7 @@ app.use(cors());
 // Webhook specifically handles its own body
 app.all('/api/stripe/webhook', stripeWebhook);
 
-app.use(express.json());
+app.use(expresson());
 
 // Express to Vercel req.query adapter
 function adapt(handler: any, idParamName = 'id') {
@@ -61,6 +61,6 @@ app.all('/api/admin/orders/:id/status', adapt(adminOrdersStatus));
 app.all('/api/admin/sales-chart', adapt(adminSalesChart));
 app.all('/api/stripe/create-payment-intent', adapt(stripeIntent));
 
-app.all('*', (req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
+app.all('*', (req, res) => res.status(404)on({ error: 'Ruta no encontrada' }));
 
 export default app;

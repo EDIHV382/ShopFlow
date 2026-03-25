@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "ShopFlow - Full-Stack E-Commerce on Vercel + Neon",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "cd client && npm install && npm run generate",
     "deploy": "vercel --prod",

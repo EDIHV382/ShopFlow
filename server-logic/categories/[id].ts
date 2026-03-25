@@ -1,10 +1,10 @@
 // PUT /api/categories/:id — update (ROLE_ADMIN)
 // DELETE /api/categories/:id — delete (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../_lib/db.js';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware.js';
+import { query, queryOne } from '../_lib/db';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
 import { z } from 'zod';
-import type { Category } from '../_lib/types.js';
+import type { Category } from '../_lib/types';
 
 const updateSchema = z.object({
   name: z.string().min(1).max(255).optional(),

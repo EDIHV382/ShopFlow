@@ -1,10 +1,10 @@
 // GET /api/products — public product listing with filters, sorting, pagination
 // POST /api/products — create product (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../_lib/db.js';
-import { setCorsHeaders, handleOptions, requireAdmin, getPagination } from '../_lib/middleware.js';
+import { query, queryOne } from '../_lib/db';
+import { setCorsHeaders, handleOptions, requireAdmin, getPagination } from '../_lib/middleware';
 import { z } from 'zod';
-import type { Product } from '../_lib/types.js';
+import type { Product } from '../_lib/types';
 
 const createProductSchema = z.object({
   name: z.string().min(1).max(255),

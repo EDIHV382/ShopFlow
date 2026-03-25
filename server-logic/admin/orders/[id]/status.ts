@@ -1,9 +1,9 @@
 // PATCH /api/admin/orders/:id/status — update order status (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../../../_lib/db.js';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../../../_lib/middleware.js';
+import { query, queryOne } from '../../../_lib/db';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../../../_lib/middleware';
 import { z } from 'zod';
-import type { Order, OrderStatus } from '../../../_lib/types.js';
+import type { Order, OrderStatus } from '../../../_lib/types';
 
 const validStatuses: OrderStatus[] = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
 

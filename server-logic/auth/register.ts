@@ -1,9 +1,9 @@
 // POST /api/auth/register
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../_lib/db.js';
-import { hashPassword, validatePassword } from '../_lib/auth.js';
-import { signToken } from '../_lib/auth.js';
-import { setCorsHeaders, handleOptions } from '../_lib/middleware.js';
+import { query, queryOne } from '../_lib/db';
+import { hashPassword, validatePassword } from '../_lib/auth';
+import { signToken } from '../_lib/auth';
+import { setCorsHeaders, handleOptions } from '../_lib/middleware';
 import { z } from 'zod';
 
 const registerSchema = z.object({

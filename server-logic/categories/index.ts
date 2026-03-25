@@ -1,10 +1,10 @@
 // GET /api/categories — public
 // POST /api/categories — create (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query } from '../_lib/db.js';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware.js';
+import { query } from '../_lib/db';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
 import { z } from 'zod';
-import type { Category } from '../_lib/types.js';
+import type { Category } from '../_lib/types';
 
 const createSchema = z.object({
   name: z.string().min(1).max(255),

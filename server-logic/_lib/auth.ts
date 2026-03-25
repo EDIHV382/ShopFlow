@@ -3,7 +3,7 @@
 
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import type { JwtPayload, UserRole } from './types.js';
+import type { JwtPayload, UserRole } from './types';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-dev-secret-change-in-production';
 const JWT_EXPIRES_IN = '7d';
