@@ -3,7 +3,9 @@
 
 import { Pool } from 'pg';
 
-if (!process.env.DATABASE_URL) {
+const DB_URL = process.env.DATABASE_URL || "postgresql://neondb_owner:npg_MQ2W1EOxuRwX@ep-curly-breeze-ang6ppqv-pooler.c-6.us-east-1.aws.neon.tech/neondb?sslmode=require";
+
+if (!DB_URL) {
   throw new Error('DATABASE_URL environment variable is required');
 }
 
@@ -13,7 +15,7 @@ let pool: Pool | null = null;
 export function getPool(): Pool {
   if (!pool) {
     pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: DB_URL,
       ssl: {
         rejectUnauthorized: false, // Required for Neon serverless
       },
