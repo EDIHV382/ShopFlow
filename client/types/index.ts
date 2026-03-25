@@ -106,6 +106,20 @@ export interface DashboardMetrics {
   recentOrders: { id: number; status: string; total: number; created_at: string; user_name: string }[]
 }
 
+export interface AdminUser {
+  id: number
+  name: string
+  email: string
+  roles: UserRole[]
+  created_at: string
+}
+
+export interface SalesChartDay {
+  date: string
+  total: number
+  orders: number
+}
+
 export interface ProductFilters {
   category?: string
   minPrice?: number

@@ -53,6 +53,13 @@ export function requireAdmin(
     res.status(403).json({ error: 'Acceso denegado: se requiere rol de administrador' });
     return null;
   }
+  
+  // DEMO MODE BLOCK
+  if (req.method !== 'GET') {
+    res.status(403).json({ error: '🔒 Modo de Prueba: Las modificaciones en la base de datos están deshabilitadas en esta demostración.' });
+    return null;
+  }
+
   return payload;
 }
 

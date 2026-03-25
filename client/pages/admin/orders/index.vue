@@ -4,7 +4,7 @@
       <h2 class="text-2xl font-bold text-white">Pedidos</h2>
 
       <!-- Status filter -->
-      <select v-model="filterStatus" class="input !w-auto text-sm" @change="load">
+      <select v-model="filterStatus" class="input !w-auto text-sm" @change="() => load(1)">
         <option value="">Todos los estados</option>
         <option value="pending">Pendientes</option>
         <option value="processing">Procesando</option>
@@ -45,10 +45,10 @@
               </td>
               <td class="px-4 py-3 text-center">
                 <select
-                  v-model="order.status"
+                  :value="order.status"
                   class="input !w-auto text-xs"
-                  @change="updateStatus(order)"
                   :disabled="order.status === 'delivered' || order.status === 'cancelled'"
+                  @change="(e) => { order.status = (e.target as HTMLSelectElement).value as OrderStatus; updateStatus(order) }"
                 >
                   <option value="pending">Pendiente</option>
                   <option value="processing">Procesando</option>

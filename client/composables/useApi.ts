@@ -29,7 +29,7 @@ export function useApi() {
     })
   }
 
-  async function post<T>(path: string, body?: unknown): Promise<T> {
+  async function post<T>(path: string, body?: Record<string, unknown> | FormData | null): Promise<T> {
     return $fetch<T>(`${config.public.apiBase}/api${path}`, {
       method: 'POST',
       body,
@@ -37,7 +37,7 @@ export function useApi() {
     })
   }
 
-  async function put<T>(path: string, body?: unknown): Promise<T> {
+  async function put<T>(path: string, body?: Record<string, unknown> | FormData | null): Promise<T> {
     return $fetch<T>(`${config.public.apiBase}/api${path}`, {
       method: 'PUT',
       body,
@@ -45,7 +45,7 @@ export function useApi() {
     })
   }
 
-  async function patch<T>(path: string, body?: unknown): Promise<T> {
+  async function patch<T>(path: string, body?: Record<string, unknown> | FormData | null): Promise<T> {
     return $fetch<T>(`${config.public.apiBase}/api${path}`, {
       method: 'PATCH',
       body,

@@ -42,7 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import type { LocalCartItem } from '~/types'
 
 // We use a simplified CartItem type for the local cart
 interface CartItemLocal {

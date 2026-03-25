@@ -19,6 +19,7 @@
         <AdminNavLink :to="'/admin/products'" :icon="'📦'" :label="'Productos'" :open="sidebarOpen" />
         <AdminNavLink :to="'/admin/categories'" :icon="'🏷️'" :label="'Categorías'" :open="sidebarOpen" />
         <AdminNavLink :to="'/admin/orders'" :icon="'🛒'" :label="'Pedidos'" :open="sidebarOpen" />
+        <AdminNavLink :to="'/admin/users'" :icon="'👥'" :label="'Usuarios'" :open="sidebarOpen" />
       </nav>
 
       <!-- Footer -->
@@ -65,6 +66,7 @@ const sidebarOpen = ref(true)
 const pageTitle = computed(() => {
   const path = route.path
   if (path.includes('dashboard')) return 'Dashboard'
+  if (path.includes('users')) return 'Usuarios'
   if (path.includes('products')) return 'Productos'
   if (path.includes('categories')) return 'Categorías'
   if (path.includes('orders')) return 'Pedidos'
