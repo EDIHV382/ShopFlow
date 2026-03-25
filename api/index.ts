@@ -29,7 +29,7 @@ app.use(cors());
 // Webhook specifically handles its own body
 app.all('/api/stripe/webhook', stripeWebhook);
 
-app.use(expresson());
+app.use(express.json());
 
 // Express to Vercel req.query adapter
 function adapt(handler: any, idParamName = 'id') {
@@ -61,6 +61,6 @@ app.all('/api/admin/orders/:id/status', adapt(adminOrdersStatus));
 app.all('/api/admin/sales-chart', adapt(adminSalesChart));
 app.all('/api/stripe/create-payment-intent', adapt(stripeIntent));
 
-app.all('*', (req, res) => res.status(404)on({ error: 'Ruta no encontrada' }));
+app.all('*', (req: any, res: any) => res.status(404).json({ error: 'Ruta no encontrada' }));
 
 export default app;
