@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "ShopFlow - Full-Stack E-Commerce on Vercel + Neon",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "cd client && npm run generate",
+    "build": "cd client && npm install && npm run generate",
     "deploy": "vercel --prod",
     "install:all": "npm install && cd api && npm install && cd ../client && npm install",
     "db:init": "node server-logic/_lib/init-db.js",
@@ -13,7 +14,23 @@
   "keywords": ["ecommerce", "nuxt", "vercel", "neon", "postgresql", "stripe"],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "@vercel/node": "^3.0.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3",
+    "stripe": "^14.12.0",
+    "zod": "^3.22.4"
+  },
   "devDependencies": {
-    "vercel": "^32.4.1"
+    "vercel": "^32.4.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.6",
+    "@types/pg": "^8.11.0",
+    "typescript": "^5.3.3"
   }
 }
