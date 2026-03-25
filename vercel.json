@@ -1,9 +1,9 @@
 {
   "buildCommand": "cd client && npm install && npm run generate",
   "outputDirectory": "client/.output/public",
-  "installCommand": "npm install && cd api && npm install",
+  "installCommand": "npm install",
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.ts" },
+    { "src": "/api/(.*)", "dest": "/api/server.js" },
     { "src": "/(.*)", "dest": "/client/.output/public/$1" }
   ]
 }
