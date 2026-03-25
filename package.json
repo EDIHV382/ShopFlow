@@ -7,8 +7,8 @@
     "build": "cd client && npm run generate",
     "deploy": "vercel --prod",
     "install:all": "npm install && cd api && npm install && cd ../client && npm install",
-    "db:init": "node api/_lib/init-db.js",
-    "db:seed": "node api/_lib/seed.js"
+    "db:init": "node server-logic/_lib/init-db.js",
+    "db:seed": "node server-logic/_lib/seed.js"
   },
   "keywords": ["ecommerce", "nuxt", "vercel", "neon", "postgresql", "stripe"],
   "author": "",
