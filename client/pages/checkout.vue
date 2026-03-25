@@ -170,28 +170,19 @@ async function handleSubmit() {
   stripeError.value = ''
 
   try {
-    // 1. Create payment intent
-    const { clientSecret } = await api.post<{ clientSecret: string }>('/stripe/create-payment-intent')
+    // DEMO MOCK: Bypass real Stripe charge
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 1500))
 
-    // 2. Confirm card payment
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: { card: cardElement },
-    })
+    const fakePaymentId = 'pi_demo_' + Math.random().toString(36).substr(2, 9)
 
-    if (result.error) {
-      stripeError.value = result.error.message || 'Error al procesar el pago'
-      return
-    }
-
-    const paymentId = result.paymentIntent?.id
-
-    // 3. Create order in backend
+    // 3. Create fake order in backend
     const order = await api.post<{ id: number }>('/orders', {
       shippingAddress: { ...form },
-      stripePaymentId: paymentId,
+      stripePaymentId: fakePaymentId,
     })
 
-    // 4. Cart is cleared server-side; clear local too
+    // 4. Cart is cleared local too
     cartStore.clearCart()
 
     // 5. Redirect to confirmation

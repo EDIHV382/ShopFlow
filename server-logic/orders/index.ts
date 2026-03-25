@@ -49,7 +49,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === 'POST') {
-    return res.status(403).json({ error: '🔒 Modo de Prueba: La creación de pedidos está deshabilitada para evitar modificaciones en la base de datos.' });
+    const parsed = createOrderSchema.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ error: parsed.error.errors[0].message });
+
+    const { shippingAddress, stripePaymentId } = parsed.data;
+
+    // DEMO MOCK: Vaciar el carrito sin alterar la tabla 'orders' ni 'products'
+    const cart = await queryOne<Cart>('SELECT id FROM carts WHERE user_id = $1', [payload.userId]);
+    if (cart) {
+      await query('DELETE FROM cart_items WHERE cart_id = $1', [cart.id]);
+    }
+
+    return res.status(201).json({ id: 999999 });
   }
 
   return res.status(405).json({ error: 'Método no permitido' });
