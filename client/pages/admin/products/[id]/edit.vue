@@ -1,7 +1,9 @@
 <template>
   <div class="max-w-2xl">
     <div class="flex items-center gap-4 mb-6">
-      <NuxtLink to="/admin/products" class="text-dark-400 hover:text-dark-100 transition-colors">←</NuxtLink>
+      <NuxtLink to="/admin/products" class="text-dark-400 hover:text-dark-100 transition-colors"
+        >←</NuxtLink
+      >
       <h2 class="text-2xl font-bold text-white">Editar producto</h2>
     </div>
 
@@ -19,7 +21,14 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="label">Precio (USD) *</label>
-          <input v-model.number="form.price" type="number" class="input" step="0.01" min="0" required />
+          <input
+            v-model.number="form.price"
+            type="number"
+            class="input"
+            step="0.01"
+            min="0"
+            required
+          />
         </div>
         <div>
           <label class="label">Stock *</label>
@@ -49,43 +58,58 @@
 </template>
 
 <script setup lang="ts">
-import type { Product, Category } from '~/types'
+import type { Product, Category } from '~/types';
 
-definePageMeta({ layout: 'admin' })
-useSeoMeta({ title: 'Editar producto — Admin' })
+definePageMeta({ layout: 'admin' });
+useSeoMeta({ title: 'Editar producto — Admin' });
 
-const route = useRoute()
-const router = useRouter()
-const api = useApi()
-const form = reactive({ name: '', description: '', price: 0, stock: 0, category_id: null as number | null })
-const imagesText = ref('')
-const categories = ref<Category[]>([])
-const saving = ref(false)
-const loadingProduct = ref(true)
-const error = ref('')
+const route = useRoute();
+const router = useRouter();
+const api = useApi();
+const form = reactive({
+  name: '',
+  description: '',
+  price: 0,
+  stock: 0,
+  category_id: null as number | null,
+});
+const imagesText = ref('');
+const categories = ref<Category[]>([]);
+const saving = ref(false);
+const loadingProduct = ref(true);
+const error = ref('');
 
 onMounted(async () => {
   const [product, cats] = await Promise.all([
     api.get<Product>(`/products/${route.params.id}`),
     api.get<Category[]>('/categories'),
-  ])
-  Object.assign(form, { name: product.name, description: product.description, price: product.price, stock: product.stock, category_id: product.category_id })
-  imagesText.value = product.images.join('\n')
-  categories.value = cats
-  loadingProduct.value = false
-})
+  ]);
+  Object.assign(form, {
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    stock: product.stock,
+    category_id: product.category_id,
+  });
+  imagesText.value = product.images.join('\n');
+  categories.value = cats;
+  loadingProduct.value = false;
+});
 
 async function handleSubmit() {
-  error.value = ''
-  saving.value = true
-  const images = imagesText.value.split('\n').map(s => s.trim()).filter(Boolean)
+  error.value = '';
+  saving.value = true;
+  const images = imagesText.value
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean);
   try {
-    await api.put(`/products/${route.params.id}`, { ...form, images })
-    router.push('/admin/products')
+    await api.put(`/products/${route.params.id}`, { ...form, images });
+    router.push('/admin/products');
   } catch (err: unknown) {
-    error.value = err instanceof Error ? err.message : 'Error al guardar'
+    error.value = err instanceof Error ? err.message : 'Error al guardar';
   } finally {
-    saving.value = false
+    saving.value = false;
   }
 }
 </script>

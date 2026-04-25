@@ -14,21 +14,41 @@
       <div class="lg:col-span-3 space-y-8">
         <!-- Shipping Address -->
         <div class="card p-6">
-          <h2 class="font-bold text-dark-100 mb-6 flex items-center gap-2">📍 Dirección de envío</h2>
+          <h2 class="font-bold text-dark-100 mb-6 flex items-center gap-2">
+            📍 Dirección de envío
+          </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="sm:col-span-2">
               <label class="label">Nombre completo *</label>
-              <input v-model="form.fullName" type="text" class="input" :class="{'input-error': errors.fullName}" placeholder="Juan García" />
+              <input
+                v-model="form.fullName"
+                type="text"
+                class="input"
+                :class="{ 'input-error': errors.fullName }"
+                placeholder="Juan García"
+              />
               <p v-if="errors.fullName" class="error-msg">⚠ {{ errors.fullName }}</p>
             </div>
             <div class="sm:col-span-2">
               <label class="label">Dirección *</label>
-              <input v-model="form.address" type="text" class="input" :class="{'input-error': errors.address}" placeholder="Calle Ejemplo #123" />
+              <input
+                v-model="form.address"
+                type="text"
+                class="input"
+                :class="{ 'input-error': errors.address }"
+                placeholder="Calle Ejemplo #123"
+              />
               <p v-if="errors.address" class="error-msg">⚠ {{ errors.address }}</p>
             </div>
             <div>
               <label class="label">Ciudad *</label>
-              <input v-model="form.city" type="text" class="input" :class="{'input-error': errors.city}" placeholder="Ciudad de México" />
+              <input
+                v-model="form.city"
+                type="text"
+                class="input"
+                :class="{ 'input-error': errors.city }"
+                placeholder="Ciudad de México"
+              />
               <p v-if="errors.city" class="error-msg">⚠ {{ errors.city }}</p>
             </div>
             <div>
@@ -37,7 +57,13 @@
             </div>
             <div>
               <label class="label">Código postal *</label>
-              <input v-model="form.postalCode" type="text" class="input" :class="{'input-error': errors.postalCode}" placeholder="06600" />
+              <input
+                v-model="form.postalCode"
+                type="text"
+                class="input"
+                :class="{ 'input-error': errors.postalCode }"
+                placeholder="06600"
+              />
               <p v-if="errors.postalCode" class="error-msg">⚠ {{ errors.postalCode }}</p>
             </div>
             <div>
@@ -46,7 +72,13 @@
             </div>
             <div class="sm:col-span-2">
               <label class="label">Teléfono *</label>
-              <input v-model="form.phone" type="tel" class="input" :class="{'input-error': errors.phone}" placeholder="+52 55 0000 0000" />
+              <input
+                v-model="form.phone"
+                type="tel"
+                class="input"
+                :class="{ 'input-error': errors.phone }"
+                placeholder="+52 55 0000 0000"
+              />
               <p v-if="errors.phone" class="error-msg">⚠ {{ errors.phone }}</p>
             </div>
           </div>
@@ -58,22 +90,26 @@
           <div id="stripe-card-element" class="input py-4" />
           <p v-if="stripeError" class="error-msg mt-2">⚠ {{ stripeError }}</p>
           <p class="text-xs text-dark-500 mt-3">
-            Tarjeta de prueba: <span class="font-mono text-dark-300">4242 4242 4242 4242</span> — Fecha futura — CVC: cualquier
+            Tarjeta de prueba: <span class="font-mono text-dark-300">4242 4242 4242 4242</span> —
+            Fecha futura — CVC: cualquier
           </p>
         </div>
 
         <!-- Auth warning -->
-        <div v-if="!authStore.isAuthenticated" class="card p-4 border-yellow-500/30 bg-yellow-500/10">
+        <div
+          v-if="!authStore.isAuthenticated"
+          class="card p-4 border-yellow-500/30 bg-yellow-500/10"
+        >
           <p class="text-sm text-yellow-400">
-            ⚠️ <NuxtLink to="/auth/login?redirect=/checkout" class="underline font-semibold">Inicia sesión</NuxtLink> para guardar tu historial de pedidos.
+            ⚠️
+            <NuxtLink to="/auth/login?redirect=/checkout" class="underline font-semibold"
+              >Inicia sesión</NuxtLink
+            >
+            para guardar tu historial de pedidos.
           </p>
         </div>
 
-        <button
-          @click="handleSubmit"
-          :disabled="processing"
-          class="btn btn-primary btn-lg w-full"
-        >
+        <button @click="handleSubmit" :disabled="processing" class="btn btn-primary btn-lg w-full">
           <span v-if="processing">⏳ Procesando pago...</span>
           <span v-else>✓ Confirmar y pagar {{ formatPrice(cartStore.subtotal) }}</span>
         </button>
@@ -84,15 +120,26 @@
         <div class="card p-5 space-y-4 sticky top-20">
           <h3 class="font-bold text-dark-100">Resumen</h3>
           <div class="space-y-3 max-h-64 overflow-y-auto pr-1">
-            <div v-for="item in cartStore.items" :key="item.product_id" class="flex gap-3 items-center">
+            <div
+              v-for="item in cartStore.items"
+              :key="item.product_id"
+              class="flex gap-3 items-center"
+            >
               <div class="w-12 h-12 rounded-xl overflow-hidden bg-dark-800 flex-shrink-0">
-                <img v-if="item.product_images?.[0]" :src="item.product_images[0]" :alt="item.product_name" class="w-full h-full object-cover" />
+                <img
+                  v-if="item.product_images?.[0]"
+                  :src="item.product_images[0]"
+                  :alt="item.product_name"
+                  class="w-full h-full object-cover"
+                />
               </div>
               <div class="flex-1 min-w-0">
                 <p class="text-xs font-medium text-dark-200 truncate">{{ item.product_name }}</p>
                 <p class="text-xs text-dark-500">x{{ item.quantity }}</p>
               </div>
-              <p class="text-sm font-semibold text-dark-100 flex-shrink-0">{{ formatPrice(item.product_price * item.quantity) }}</p>
+              <p class="text-sm font-semibold text-dark-100 flex-shrink-0">
+                {{ formatPrice(item.product_price * item.quantity) }}
+              </p>
             </div>
           </div>
           <div class="h-px bg-dark-800" />
@@ -107,91 +154,110 @@
 </template>
 
 <script setup lang="ts">
-import { loadStripe } from '@stripe/stripe-js'
-import type { Stripe, StripeCardElement } from '@stripe/stripe-js'
+import { loadStripe } from '@stripe/stripe-js';
+import type { Stripe, StripeCardElement } from '@stripe/stripe-js';
 
-definePageMeta({ layout: 'default', middleware: 'auth' })
-useSeoMeta({ title: 'Checkout — ShopFlow' })
+definePageMeta({ layout: 'default', middleware: 'auth' });
+useSeoMeta({ title: 'Checkout — ShopFlow' });
 
-const config = useRuntimeConfig()
-const cartStore = useCartStore()
-const authStore = useAuthStore()
-const api = useApi()
-const router = useRouter()
+const config = useRuntimeConfig();
+const cartStore = useCartStore();
+const authStore = useAuthStore();
+const api = useApi();
+const router = useRouter();
 
-const processing = ref(false)
-const stripeError = ref('')
+const processing = ref(false);
+const stripeError = ref('');
 
-let stripe: Stripe | null = null
-let cardElement: StripeCardElement | null = null
+let stripe: Stripe | null = null;
+let cardElement: StripeCardElement | null = null;
 
 // Form state
 const form = reactive({
-  fullName: '', address: '', city: '', state: '',
-  postalCode: '', country: 'México', phone: '',
-})
-const errors = reactive<Partial<typeof form>>({})
+  fullName: '',
+  address: '',
+  city: '',
+  state: '',
+  postalCode: '',
+  country: 'México',
+  phone: '',
+});
+const errors = reactive<Partial<typeof form>>({});
 
 function formatPrice(price: number) {
-  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' }).format(price)
+  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' }).format(price);
 }
 
 function validate(): boolean {
-  Object.keys(errors).forEach(k => delete errors[k as keyof typeof errors])
-  if (!form.fullName.trim() || form.fullName.length < 2) errors.fullName = 'Nombre requerido'
-  if (!form.address.trim() || form.address.length < 5) errors.address = 'Dirección requerida'
-  if (!form.city.trim()) errors.city = 'Ciudad requerida'
-  if (!form.postalCode.trim()) errors.postalCode = 'Código postal requerido'
-  if (!form.phone.trim() || form.phone.length < 7) errors.phone = 'Teléfono requerido'
-  return Object.keys(errors).length === 0
+  Object.keys(errors).forEach((k) => delete errors[k as keyof typeof errors]);
+  if (!form.fullName.trim() || form.fullName.length < 2) {
+    errors.fullName = 'Nombre requerido';
+  }
+  if (!form.address.trim() || form.address.length < 5) {
+    errors.address = 'Dirección requerida';
+  }
+  if (!form.city.trim()) {
+    errors.city = 'Ciudad requerida';
+  }
+  if (!form.postalCode.trim()) {
+    errors.postalCode = 'Código postal requerido';
+  }
+  if (!form.phone.trim() || form.phone.length < 7) {
+    errors.phone = 'Teléfono requerido';
+  }
+  return Object.keys(errors).length === 0;
 }
 
 onMounted(async () => {
-  stripe = await loadStripe(config.public.stripePublicKey)
-  if (!stripe) return
+  stripe = await loadStripe(config.public.stripePublicKey);
+  if (!stripe) {
+    return;
+  }
 
   const elements = stripe.elements({
     appearance: {
       theme: 'night',
       variables: { colorBackground: '#1e293b', colorText: '#f1f5f9', borderRadius: '12px' },
     },
-  })
-  cardElement = elements.create('card', { style: { base: { fontSize: '16px' } } })
-  cardElement.mount('#stripe-card-element')
+  });
+  cardElement = elements.create('card', { style: { base: { fontSize: '16px' } } });
+  cardElement.mount('#stripe-card-element');
   cardElement.on('change', (e) => {
-    stripeError.value = e.error?.message || ''
-  })
-})
+    stripeError.value = e.error?.message || '';
+  });
+});
 
 async function handleSubmit() {
-  if (!validate() || !stripe || !cardElement) return
+  if (!validate() || !stripe || !cardElement) {
+    return;
+  }
 
-  processing.value = true
-  stripeError.value = ''
+  processing.value = true;
+  stripeError.value = '';
 
   try {
     // DEMO MOCK: Bypass real Stripe charge
     // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    const fakePaymentId = 'pi_demo_' + Math.random().toString(36).substr(2, 9)
+    const fakePaymentId = 'pi_demo_' + Math.random().toString(36).substr(2, 9);
 
     // 3. Create fake order in backend
     const order = await api.post<{ id: number }>('/orders', {
       shippingAddress: { ...form },
       stripePaymentId: fakePaymentId,
-    })
+    });
 
     // 4. Cart is cleared local too
-    cartStore.clearCart()
+    cartStore.clearCart();
 
     // 5. Redirect to confirmation
-    router.push(`/orders/${order.id}?success=true`)
+    router.push(`/orders/${order.id}?success=true`);
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Error al procesar el pedido'
-    stripeError.value = msg
+    const msg = err instanceof Error ? err.message : 'Error al procesar el pedido';
+    stripeError.value = msg;
   } finally {
-    processing.value = false
+    processing.value = false;
   }
 }
 </script>

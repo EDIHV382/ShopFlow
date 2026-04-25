@@ -48,9 +48,11 @@
               <td class="px-4 py-3 text-dark-400">{{ user.email }}</td>
               <td class="px-4 py-3">
                 <span
-                  :class="isAdmin(user)
-                    ? 'badge bg-primary-500/20 text-primary-300 border border-primary-500/30'
-                    : 'badge bg-dark-700 text-dark-400 border border-dark-600'"
+                  :class="
+                    isAdmin(user)
+                      ? 'badge bg-primary-500/20 text-primary-300 border border-primary-500/30'
+                      : 'badge bg-dark-700 text-dark-400 border border-dark-600'
+                  "
                 >
                   {{ isAdmin(user) ? '🛡️ Admin' : '👤 Usuario' }}
                 </span>
@@ -66,7 +68,13 @@
                     :title="isAdmin(user) ? 'Quitar admin' : 'Hacer admin'"
                     @click="toggleRole(user)"
                   >
-                    {{ toggling === user.id ? '...' : (isAdmin(user) ? '↓ Quitar admin' : '↑ Hacer admin') }}
+                    {{
+                      toggling === user.id
+                        ? '...'
+                        : isAdmin(user)
+                          ? '↓ Quitar admin'
+                          : '↑ Hacer admin'
+                    }}
                   </button>
                   <button
                     :disabled="user.id === authStore.user?.id"
@@ -105,84 +113,96 @@
 </template>
 
 <script setup lang="ts">
-import type { AdminUser, PaginatedResponse } from '~/types'
+import type { AdminUser, PaginatedResponse } from '~/types';
 
-definePageMeta({ layout: 'admin' })
-useSeoMeta({ title: 'Usuarios — ShopFlow Admin' })
+definePageMeta({ layout: 'admin' });
+useSeoMeta({ title: 'Usuarios — ShopFlow Admin' });
 
-const api = useApi()
-const authStore = useAuthStore()
-const { $toast } = useNuxtApp()
+const api = useApi();
+const authStore = useAuthStore();
+const { $toast } = useNuxtApp();
 
-const users = ref<AdminUser[]>([])
-const meta = ref<PaginatedResponse<AdminUser>['meta'] | null>(null)
-const loading = ref(true)
-const page = ref(1)
-const search = ref('')
-const toggling = ref<number | null>(null)
-const deletingUser = ref<AdminUser | null>(null)
+const users = ref<AdminUser[]>([]);
+const meta = ref<PaginatedResponse<AdminUser>['meta'] | null>(null);
+const loading = ref(true);
+const page = ref(1);
+const search = ref('');
+const toggling = ref<number | null>(null);
+const deletingUser = ref<AdminUser | null>(null);
 
 function isAdmin(user: AdminUser) {
-  return user.roles.includes('ROLE_ADMIN')
+  return user.roles.includes('ROLE_ADMIN');
 }
 
 function formatDate(d: string) {
-  return new Date(d).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })
+  return new Date(d).toLocaleDateString('es-MX', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
 async function load(newPage = 1) {
-  page.value = newPage
-  loading.value = true
+  page.value = newPage;
+  loading.value = true;
   try {
-    const params: Record<string, string | number | boolean> = { page: page.value, limit: 20 }
-    if (search.value) params.search = search.value
-    const result = await api.get<PaginatedResponse<AdminUser>>('/admin/users', params)
-    users.value = result.data
-    meta.value = result.meta
+    const params: Record<string, string | number | boolean> = { page: page.value, limit: 20 };
+    if (search.value) {
+      params.search = search.value;
+    }
+    const result = await api.get<PaginatedResponse<AdminUser>>('/admin/users', params);
+    users.value = result.data;
+    meta.value = result.meta;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
-let debounceTimer: ReturnType<typeof setTimeout>
+let debounceTimer: ReturnType<typeof setTimeout>;
 function debouncedLoad() {
-  clearTimeout(debounceTimer)
-  debounceTimer = setTimeout(() => load(1), 350)
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => load(1), 350);
 }
 
 async function toggleRole(user: AdminUser) {
-  toggling.value = user.id
+  toggling.value = user.id;
   try {
-    const newRoles = isAdmin(user)
-      ? ['ROLE_USER']
-      : ['ROLE_USER', 'ROLE_ADMIN']
-    const updated = await api.patch<AdminUser>(`/admin/users?id=${user.id}`, { roles: newRoles })
-    const idx = users.value.findIndex((u) => u.id === user.id)
-    if (idx !== -1) users.value[idx] = updated
-    ;($toast as any).success(isAdmin(updated) ? `${user.name} ahora es administrador` : `${user.name} ya no es administrador`)
+    const newRoles = isAdmin(user) ? ['ROLE_USER'] : ['ROLE_USER', 'ROLE_ADMIN'];
+    const updated = await api.patch<AdminUser>(`/admin/users?id=${user.id}`, { roles: newRoles });
+    const idx = users.value.findIndex((u) => u.id === user.id);
+    if (idx !== -1) {
+      users.value[idx] = updated;
+    }
+    ($toast as any).success(
+      isAdmin(updated)
+        ? `${user.name} ahora es administrador`
+        : `${user.name} ya no es administrador`,
+    );
   } catch (err: unknown) {
-    ;($toast as any).error(err instanceof Error ? err.message : 'Error')
+    ($toast as any).error(err instanceof Error ? err.message : 'Error');
   } finally {
-    toggling.value = null
+    toggling.value = null;
   }
 }
 
 function confirmDelete(user: AdminUser) {
-  deletingUser.value = user
+  deletingUser.value = user;
 }
 
 async function deleteUser() {
-  if (!deletingUser.value) return
-  const name = deletingUser.value.name
+  if (!deletingUser.value) {
+    return;
+  }
+  const name = deletingUser.value.name;
   try {
-    await api.del(`/admin/users?id=${deletingUser.value.id}`)
-    ;($toast as any).success(`Usuario '${name}' eliminado`)
-    deletingUser.value = null
-    await load(page.value)
+    await api.del(`/admin/users?id=${deletingUser.value.id}`);
+    ($toast as any).success(`Usuario '${name}' eliminado`);
+    deletingUser.value = null;
+    await load(page.value);
   } catch (err: unknown) {
-    ;($toast as any).error(err instanceof Error ? err.message : 'Error')
+    ($toast as any).error(err instanceof Error ? err.message : 'Error');
   }
 }
 
-onMounted(() => load())
+onMounted(() => load());
 </script>

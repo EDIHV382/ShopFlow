@@ -8,6 +8,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Stripe](https://img.shields.io/badge/Stripe-Payments-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com/)
 [![PostgreSQL](https://img.shields.io/badge/Neon-PostgreSQL-00E5BF?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/EDIHV382/ShopFlow/actions)
 
 **Aplicación de e-commerce fullstack de nivel producción construida como proyecto de portafolio.**  
 Autenticación JWT · Catálogo con filtros · Pagos con Stripe · Panel de administración · SSR con Nuxt 3
@@ -33,30 +34,32 @@ Autenticación JWT · Catálogo con filtros · Pagos con Stripe · Panel de admi
 
 ## 🧰 Stack Tecnológico
 
-| Capa | Tecnología | Descripción |
-|------|-----------|-------------|
-| **Frontend** | [Nuxt 3](https://nuxt.com/) + [Vue 3](https://vuejs.org/) | SSR / SSG, Composition API, `<script setup>` |
-| **Tipado** | [TypeScript](https://www.typescriptlang.org/) | Modo estricto en cliente y API |
-| **Estilos** | [TailwindCSS](https://tailwindcss.com/) | Diseño utility-first, dark mode |
-| **Estado** | [Pinia](https://pinia.vuejs.org/) | Stores reactivos con persistencia |
-| **Validación** | [Vee-Validate](https://vee-validate.logaretm.com/) + [Zod](https://zod.dev/) | Validación de formularios y schemas |
-| **Backend** | [Vercel Serverless Functions](https://vercel.com/docs/functions) | Node.js + TypeScript, sin servidor |
-| **Base de datos** | [Neon PostgreSQL](https://neon.tech/) | PostgreSQL serverless, pool de conexiones |
-| **Pagos** | [Stripe](https://stripe.com/) | Elements dark mode + Webhooks |
-| **Auth** | JWT | Tokens con expiración de 7 días |
-| **Deploy** | [Vercel](https://vercel.com/) | Monorepo con cliente + API unificados |
+| Capa              | Tecnología                                                                   | Descripción                                  |
+| ----------------- | ---------------------------------------------------------------------------- | -------------------------------------------- |
+| **Frontend**      | [Nuxt 3](https://nuxt.com/) + [Vue 3](https://vuejs.org/)                    | SSR / SSG, Composition API, `<script setup>` |
+| **Tipado**        | [TypeScript](https://www.typescriptlang.org/)                                | Modo estricto en cliente y API               |
+| **Estilos**       | [TailwindCSS](https://tailwindcss.com/)                                      | Diseño utility-first, dark mode              |
+| **Estado**        | [Pinia](https://pinia.vuejs.org/)                                            | Stores reactivos con persistencia            |
+| **Validación**    | [Vee-Validate](https://vee-validate.logaretm.com/) + [Zod](https://zod.dev/) | Validación de formularios y schemas          |
+| **Backend**       | [Vercel Serverless Functions](https://vercel.com/docs/functions)             | Node.js + TypeScript, sin servidor           |
+| **Base de datos** | [Neon PostgreSQL](https://neon.tech/)                                        | PostgreSQL serverless, pool de conexiones    |
+| **Pagos**         | [Stripe](https://stripe.com/)                                                | Elements dark mode + Webhooks                |
+| **Auth**          | JWT                                                                          | Tokens con expiración de 7 días              |
+| **Deploy**        | [Vercel](https://vercel.com/)                                                | Monorepo con cliente + API unificados        |
 
 ---
 
 ## ✨ Funcionalidades
 
 ### 🔐 Autenticación
+
 - [x] Registro de usuarios con validación de contraseña (8+ chars, mayúscula, número)
 - [x] Login con JWT almacenado en `localStorage`
 - [x] Rutas protegidas para clientes y administradores
 - [x] Cierre de sesión y limpieza de estado global
 
 ### 🛒 Catálogo & Productos
+
 - [x] Listado con filtros por categoría, precio y disponibilidad
 - [x] Búsqueda en tiempo real por nombre
 - [x] Paginación del catálogo
@@ -65,6 +68,7 @@ Autenticación JWT · Catálogo con filtros · Pagos con Stripe · Panel de admi
 - [x] Badge de **"Agotado"** para productos sin stock
 
 ### 🛍️ Carrito & Checkout
+
 - [x] Carrito persistente en `localStorage` con sincronización al backend
 - [x] Agregar, editar cantidad y eliminar ítems
 - [x] Checkout con **Stripe Elements** en dark mode
@@ -72,17 +76,20 @@ Autenticación JWT · Catálogo con filtros · Pagos con Stripe · Panel de admi
 - [x] Cancelación automática del pedido si el pago falla
 
 ### 📦 Pedidos
+
 - [x] Historial de pedidos del usuario autenticado
 - [x] Estado de pedido en tiempo real (pendiente / pagado / cancelado / enviado)
 - [x] Detalle completo de cada orden
 
 ### 🔧 Panel de Administración
+
 - [x] Dashboard con métricas clave (ventas, pedidos, usuarios, ingresos)
 - [x] **CRUD completo** de productos (crear, editar, eliminar, imagen)
 - [x] **CRUD completo** de categorías
 - [x] Gestión de pedidos con cambio de estado manual
 
 ### 🎨 UX & Rendimiento
+
 - [x] Skeleton loaders en toda la aplicación
 - [x] Toast notifications con `vue-toastification`
 - [x] SSR con Nuxt 3 (SEO-friendly)
@@ -105,17 +112,17 @@ Autenticación JWT · Catálogo con filtros · Pagos con Stripe · Panel de admi
 
 ### 👤 Cliente
 
-| Campo | Valor |
-|-------|-------|
-| **Email** | `cliente@shopflow.com` |
-| **Contraseña** | `Cliente123` |
+| Campo          | Valor                  |
+| -------------- | ---------------------- |
+| **Email**      | `cliente@shopflow.com` |
+| **Contraseña** | `Cliente123`           |
 
 ### 🔧 Administrador
 
-| Campo | Valor |
-|-------|-------|
-| **Email** | `admin@shopflow.com` |
-| **Contraseña** | `Admin1234` |
+| Campo          | Valor                |
+| -------------- | -------------------- |
+| **Email**      | `admin@shopflow.com` |
+| **Contraseña** | `Admin1234`          |
 
 ---
 
@@ -125,20 +132,20 @@ Autenticación JWT · Catálogo con filtros · Pagos con Stripe · Panel de admi
 
 ### Tarjeta de Prueba
 
-| Campo | Valor |
-|-------|-------|
-| **Número** | `4242 4242 4242 4242` |
+| Campo                   | Valor                                |
+| ----------------------- | ------------------------------------ |
+| **Número**              | `4242 4242 4242 4242`                |
 | **Fecha de expiración** | Cualquier fecha futura (ej. `12/29`) |
-| **CVC** | Cualquier 3 dígitos (ej. `123`) |
-| **Código postal** | Cualquier código (ej. `10001`) |
+| **CVC**                 | Cualquier 3 dígitos (ej. `123`)      |
+| **Código postal**       | Cualquier código (ej. `10001`)       |
 
 ### Otros escenarios de prueba
 
-| Tarjeta | Resultado |
-|---------|-----------|
-| `4000 0000 0000 0002` | Pago rechazado |
+| Tarjeta               | Resultado                        |
+| --------------------- | -------------------------------- |
+| `4000 0000 0000 0002` | Pago rechazado                   |
 | `4000 0025 0000 3155` | Requiere autenticación 3D Secure |
-| `4000 0000 0000 9995` | Fondos insuficientes |
+| `4000 0000 0000 9995` | Fondos insuficientes             |
 
 > 📖 Ver todos los escenarios en la [documentación de Stripe](https://stripe.com/docs/testing#cards).
 
@@ -210,6 +217,7 @@ npm run db:seed
 Necesitas **dos terminales** simultáneas:
 
 **Terminal 1 — API (Vercel Dev):**
+
 ```bash
 cd api
 npm run dev
@@ -217,6 +225,7 @@ npm run dev
 ```
 
 **Terminal 2 — Cliente (Nuxt):**
+
 ```bash
 cd client
 npm run dev
@@ -258,14 +267,14 @@ npm run deploy
 
 Ve a tu proyecto en [vercel.com](https://vercel.com) → **Settings** → **Environment Variables** y agrega:
 
-| Variable | Entorno |
-|----------|---------|
-| `DATABASE_URL` | Production, Preview |
-| `JWT_SECRET` | Production, Preview |
-| `STRIPE_SECRET_KEY` | Production, Preview |
-| `STRIPE_WEBHOOK_SECRET` | Production |
-| `STRIPE_PUBLIC_KEY` | Production, Preview |
-| `NUXT_PUBLIC_API_BASE` | Production, Preview |
+| Variable                | Entorno             |
+| ----------------------- | ------------------- |
+| `DATABASE_URL`          | Production, Preview |
+| `JWT_SECRET`            | Production, Preview |
+| `STRIPE_SECRET_KEY`     | Production, Preview |
+| `STRIPE_WEBHOOK_SECRET` | Production          |
+| `STRIPE_PUBLIC_KEY`     | Production, Preview |
+| `NUXT_PUBLIC_API_BASE`  | Production, Preview |
 
 > **`NUXT_PUBLIC_API_BASE`** debe apuntar a tu dominio de Vercel:  
 > Ej: `https://shopflow-demo-2026.vercel.app`
@@ -287,25 +296,26 @@ Ve a tu proyecto en [vercel.com](https://vercel.com) → **Settings** → **Envi
 ```
 ShopFlow/
 │
-├── 📂 api/                          # Vercel Serverless Functions (Node.js + TS)
+├── 📂 api/                          # Express.js (Node.js + TS) Serverless on Vercel
+│   ├── index.ts                     # Entry point & middlewares
 │   ├── 📂 _lib/                     # Utilidades compartidas
 │   │   ├── db.ts                    # Pool de conexión Neon PostgreSQL
+│   │   ├── schemas.ts               # Zod validation schemas
+│   │   ├── pagination.ts            # Paginación
 │   │   ├── auth.ts                  # Helpers JWT
-│   │   ├── init-db.js               # Inicialización de tablas
-│   │   └── seed.js                  # Datos de prueba
-│   ├── 📂 auth/                     # Rutas de autenticación
-│   │   ├── login.ts
-│   │   └── register.ts
-│   ├── 📂 products/                 # CRUD de productos
-│   ├── 📂 categories/               # CRUD de categorías
-│   ├── 📂 cart/                     # Sincronización del carrito
-│   ├── 📂 orders/                   # Gestión de pedidos
-│   ├── 📂 admin/                    # Endpoints del panel admin
-│   └── 📂 stripe/                   # Intents de pago + webhook
-│       ├── create-payment-intent.ts
-│       └── webhook.ts
+│   │   ├── init-db.ts               # Inicialización de tablas
+│   │   └── seed.ts                  # Datos de prueba
+│   └── 📂 _routes/                  # Controladores
+│       ├── auth/                    # Rutas de autenticación
+│       ├── products/                # CRUD de productos
+│       ├── categories/              # CRUD de categorías
+│       ├── cart/                    # Sincronización del carrito
+│       ├── orders/                  # Gestión de pedidos
+│       ├── admin/                   # Endpoints del panel admin
+│       └── stripe/                  # Intents de pago + webhook
 │
 ├── 📂 client/                       # Nuxt 3 App (Vue 3 + TypeScript)
+
 │   ├── 📂 pages/                    # Rutas de la aplicación
 │   │   ├── index.vue                # Página principal / catálogo
 │   │   ├── product/[id].vue         # Detalle de producto

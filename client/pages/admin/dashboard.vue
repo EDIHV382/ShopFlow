@@ -9,8 +9,12 @@
     <div v-else class="grid grid-cols-2 lg:grid-cols-4 gap-5">
       <div class="card p-5">
         <div class="text-2xl mb-2">💰</div>
-        <div class="text-2xl font-extrabold text-white">{{ formatPrice(metrics?.todaySales.total || 0) }}</div>
-        <div class="text-xs text-dark-400 mt-1">Ventas hoy ({{ metrics?.todaySales.count }} pedidos)</div>
+        <div class="text-2xl font-extrabold text-white">
+          {{ formatPrice(metrics?.todaySales.total || 0) }}
+        </div>
+        <div class="text-xs text-dark-400 mt-1">
+          Ventas hoy ({{ metrics?.todaySales.count }} pedidos)
+        </div>
       </div>
       <div class="card p-5">
         <div class="text-2xl mb-2">⏳</div>
@@ -67,11 +71,23 @@
       <!-- Low stock alert -->
       <div class="card p-5">
         <h3 class="font-bold text-dark-100 mb-4 flex items-center gap-2">⚠️ Stock bajo</h3>
-        <div v-if="metrics?.lowStockProducts.length === 0" class="text-sm text-dark-500">Todo el stock está bien ✓</div>
+        <div v-if="metrics?.lowStockProducts.length === 0" class="text-sm text-dark-500">
+          Todo el stock está bien ✓
+        </div>
         <div v-else class="space-y-2">
-          <div v-for="p in metrics?.lowStockProducts" :key="p.id" class="flex items-center justify-between py-2 border-b border-dark-800 last:border-0">
+          <div
+            v-for="p in metrics?.lowStockProducts"
+            :key="p.id"
+            class="flex items-center justify-between py-2 border-b border-dark-800 last:border-0"
+          >
             <span class="text-sm text-dark-200">{{ p.name }}</span>
-            <span :class="p.stock === 0 ? 'badge-sold-out' : 'badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'">
+            <span
+              :class="
+                p.stock === 0
+                  ? 'badge-sold-out'
+                  : 'badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+              "
+            >
               {{ p.stock === 0 ? 'Agotado' : `${p.stock} uds` }}
             </span>
           </div>
@@ -82,14 +98,20 @@
       <div class="card p-5">
         <h3 class="font-bold text-dark-100 mb-4">🕐 Pedidos recientes</h3>
         <div class="space-y-2">
-          <div v-for="order in metrics?.recentOrders" :key="order.id" class="flex items-center justify-between py-2 border-b border-dark-800 last:border-0">
+          <div
+            v-for="order in metrics?.recentOrders"
+            :key="order.id"
+            class="flex items-center justify-between py-2 border-b border-dark-800 last:border-0"
+          >
             <div>
               <p class="text-sm text-dark-200">#{{ order.id }} · {{ order.user_name }}</p>
               <p class="text-xs text-dark-500">{{ formatDate(order.created_at) }}</p>
             </div>
             <div class="text-right">
               <p class="text-sm font-bold text-white">{{ formatPrice(order.total) }}</p>
-              <span :class="statusBadge(order.status as any)" class="text-xs">{{ statusLabel(order.status as any) }}</span>
+              <span :class="statusBadge(order.status as any)" class="text-xs">{{
+                statusLabel(order.status as any)
+              }}</span>
             </div>
           </div>
         </div>
@@ -99,72 +121,89 @@
 </template>
 
 <script setup lang="ts">
-import type { DashboardMetrics, OrderStatus, SalesChartDay } from '~/types'
+import type { DashboardMetrics, OrderStatus, SalesChartDay } from '~/types';
 
-definePageMeta({ layout: 'admin' })
-useSeoMeta({ title: 'Dashboard — ShopFlow Admin' })
+definePageMeta({ layout: 'admin' });
+useSeoMeta({ title: 'Dashboard — ShopFlow Admin' });
 
-const api = useApi()
-const metrics = ref<DashboardMetrics | null>(null)
-const loading = ref(true)
+const api = useApi();
+const metrics = ref<DashboardMetrics | null>(null);
+const loading = ref(true);
 
 // Chart
-const chartCanvas = ref<HTMLCanvasElement | null>(null)
-const chartData = ref<SalesChartDay[]>([])
-const chartLoading = ref(true)
-const chartDays = ref(30)
-let chartInstance: unknown = null
+const chartCanvas = ref<HTMLCanvasElement | null>(null);
+const chartData = ref<SalesChartDay[]>([]);
+const chartLoading = ref(true);
+const chartDays = ref(30);
+let chartInstance: unknown = null;
 
-const periodTotal = computed(() => chartData.value.reduce((s, d) => s + d.total, 0))
-const periodOrders = computed(() => chartData.value.reduce((s, d) => s + d.orders, 0))
+const periodTotal = computed(() => chartData.value.reduce((s, d) => s + d.total, 0));
+const periodOrders = computed(() => chartData.value.reduce((s, d) => s + d.orders, 0));
 
 function formatPrice(p: number) {
-  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' }).format(p)
+  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' }).format(p);
 }
 function formatDate(d: string) {
-  return new Date(d).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })
+  return new Date(d).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' });
 }
 function statusBadge(s: OrderStatus) {
-  const m: Record<string, string> = { pending: 'badge-pending', processing: 'badge-processing', shipped: 'badge-shipped', delivered: 'badge-delivered', cancelled: 'badge-cancelled' }
-  return m[s] || 'badge'
+  const m: Record<string, string> = {
+    pending: 'badge-pending',
+    processing: 'badge-processing',
+    shipped: 'badge-shipped',
+    delivered: 'badge-delivered',
+    cancelled: 'badge-cancelled',
+  };
+  return m[s] || 'badge';
 }
 function statusLabel(s: OrderStatus) {
-  const m: Record<string, string> = { pending: 'Pendiente', processing: 'Procesando', shipped: 'Enviado', delivered: 'Entregado', cancelled: 'Cancelado' }
-  return m[s] || s
+  const m: Record<string, string> = {
+    pending: 'Pendiente',
+    processing: 'Procesando',
+    shipped: 'Enviado',
+    delivered: 'Entregado',
+    cancelled: 'Cancelado',
+  };
+  return m[s] || s;
 }
 
 async function loadChart(days: number) {
-  chartLoading.value = true
+  chartLoading.value = true;
   try {
-    chartData.value = await api.get<SalesChartDay[]>('/admin/sales-chart', { days })
+    chartData.value = await api.get<SalesChartDay[]>('/admin/sales-chart', { days });
   } finally {
-    chartLoading.value = false
+    chartLoading.value = false;
   }
-  await nextTick()
-  renderChart()
+  await nextTick();
+  renderChart();
 }
 
 async function setChartDays(days: number) {
-  chartDays.value = days
-  await loadChart(days)
+  chartDays.value = days;
+  await loadChart(days);
 }
 
 function renderChart() {
-  if (!chartCanvas.value) return
+  if (!chartCanvas.value) {
+    return;
+  }
   // Destroy previous instance if any
   if (chartInstance) {
-    (chartInstance as { destroy(): void }).destroy()
-    chartInstance = null
+    (chartInstance as { destroy(): void }).destroy();
+    chartInstance = null;
   }
 
   const labels = chartData.value.map((d) => {
-    const date = new Date(d.date + 'T00:00:00')
-    return date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })
-  })
-  const totals = chartData.value.map((d) => d.total)
+    const date = new Date(d.date + 'T00:00:00');
+    return date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' });
+  });
+  const totals = chartData.value.map((d) => d.total);
 
-  const Chart = (window as unknown as { Chart: new (...args: unknown[]) => { destroy(): void } }).Chart
-  if (!Chart) return
+  const Chart = (window as unknown as { Chart: new (...args: unknown[]) => { destroy(): void } })
+    .Chart;
+  if (!Chart) {
+    return;
+  }
 
   chartInstance = new Chart(chartCanvas.value, {
     type: 'bar',
@@ -203,26 +242,26 @@ function renderChart() {
         },
       },
     },
-  })
+  });
 }
 
 onMounted(async () => {
   // Load chart.js from CDN if not already loaded
   if (!(window as unknown as { Chart?: unknown }).Chart) {
     await new Promise<void>((resolve) => {
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js'
-      script.onload = () => resolve()
-      document.head.appendChild(script)
-    })
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js';
+      script.onload = () => resolve();
+      document.head.appendChild(script);
+    });
   }
 
   await Promise.all([
     api.get<DashboardMetrics>('/admin/dashboard').then((data) => {
-      metrics.value = data
-      loading.value = false
+      metrics.value = data;
+      loading.value = false;
     }),
     loadChart(chartDays.value),
-  ])
-})
+  ]);
+});
 </script>

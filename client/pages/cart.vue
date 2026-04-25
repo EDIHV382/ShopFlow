@@ -13,13 +13,12 @@
     <div v-else class="grid lg:grid-cols-3 gap-8">
       <!-- Items -->
       <div class="lg:col-span-2 space-y-3">
-        <CartItem
-          v-for="item in cartStore.items"
-          :key="item.product_id"
-          :item="item"
-        />
+        <CartItem v-for="item in cartStore.items" :key="item.product_id" :item="item" />
 
-        <button @click="showClearModal = true" class="text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-1 mt-2">
+        <button
+          @click="showClearModal = true"
+          class="text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-1 mt-2"
+        >
           🗑️ Vaciar carrito
         </button>
       </div>
@@ -76,18 +75,18 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: 'default' })
-useSeoMeta({ title: 'Mi carrito — ShopFlow' })
+definePageMeta({ layout: 'default' });
+useSeoMeta({ title: 'Mi carrito — ShopFlow' });
 
-const cartStore = useCartStore()
-const showClearModal = ref(false)
+const cartStore = useCartStore();
+const showClearModal = ref(false);
 
 function formatPrice(price: number) {
-  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' }).format(price)
+  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' }).format(price);
 }
 
 function clearCart() {
-  cartStore.clearCart()
-  showClearModal.value = false
+  cartStore.clearCart();
+  showClearModal.value = false;
 }
 </script>

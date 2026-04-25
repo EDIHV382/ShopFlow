@@ -15,12 +15,12 @@
 
 <script setup lang="ts">
 interface Props {
-  to: string
-  icon: string
-  label: string
-  open: boolean
+  to: string;
+  icon: string;
+  label: string;
+  open: boolean;
 }
-const props = defineProps<Props>()
-const route = useRoute()
-const isActive = computed(() => route.path.startsWith(props.to))
+const props = defineProps<Props>();
+const route = useRoute();
+const isActive = computed(() => route.path.startsWith(props.to));
 </script>

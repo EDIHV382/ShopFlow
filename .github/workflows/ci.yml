@@ -1,0 +1,42 @@
+name: ShopFlow CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm run install:all
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run TypeScript Typecheck (Client)
+        run: cd client && npx nuxi typecheck
+
+      - name: Run TypeScript Typecheck (API)
+        run: npx tsc --noEmit
+
+      - name: Run Unit & Integration Tests with Coverage
+        run: npm run test:unit -- --coverage
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E Tests
+        run: npm run test:e2e

@@ -25,6 +25,8 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxt/image": "^2.0.0",
+    "@nuxtjs/sitemap": "^8.0.14",
     "@types/node": "^20.11.25",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",

@@ -10,11 +10,11 @@
 
 <script setup lang="ts">
 // Initialize stores on layout mount
-const authStore = useAuthStore()
-const cartStore = useCartStore()
+const authStore = useAuthStore();
+const cartStore = useCartStore();
 
 onMounted(() => {
-  authStore.init()
-  cartStore.init()
-})
+  authStore.init();
+  cartStore.init();
+});
 </script>

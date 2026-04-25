@@ -16,7 +16,7 @@
         @click="$emit('change', Number(page))"
         :class="[
           'btn btn-sm px-3.5 min-w-[36px]',
-          currentPage === page ? 'btn-primary' : 'btn-secondary'
+          currentPage === page ? 'btn-primary' : 'btn-secondary',
         ]"
       >
         {{ page }}
@@ -36,21 +36,29 @@
 
 <script setup lang="ts">
 interface Props {
-  currentPage: number
-  totalPages: number
+  currentPage: number;
+  totalPages: number;
 }
-const props = defineProps<Props>()
-defineEmits<{ change: [page: number] }>()
+const props = defineProps<Props>();
+defineEmits<{ change: [page: number] }>();
 
 const pagesToShow = computed(() => {
-  const { currentPage: cp, totalPages: tp } = props
-  if (tp <= 7) return Array.from({ length: tp }, (_, i) => i + 1)
+  const { currentPage: cp, totalPages: tp } = props;
+  if (tp <= 7) {
+    return Array.from({ length: tp }, (_, i) => i + 1);
+  }
 
-  const pages: (number | string)[] = [1]
-  if (cp > 3) pages.push('...')
-  for (let i = Math.max(2, cp - 1); i <= Math.min(tp - 1, cp + 1); i++) pages.push(i)
-  if (cp < tp - 2) pages.push('...')
-  pages.push(tp)
-  return pages
-})
+  const pages: (number | string)[] = [1];
+  if (cp > 3) {
+    pages.push('...');
+  }
+  for (let i = Math.max(2, cp - 1); i <= Math.min(tp - 1, cp + 1); i++) {
+    pages.push(i);
+  }
+  if (cp < tp - 2) {
+    pages.push('...');
+  }
+  pages.push(tp);
+  return pages;
+});
 </script>

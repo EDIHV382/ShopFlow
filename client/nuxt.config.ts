@@ -10,10 +10,11 @@ export default defineNuxtConfig({
     preset: 'static',
   },
 
-  modules: [
-    '@nuxtjs/tailwindcss',
-    '@pinia/nuxt',
-  ],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/sitemap'],
+
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://shopflow.vercel.app',
+  },
 
   // Runtime config — NUXT_PUBLIC_API_BASE is set via env var
   runtimeConfig: {
@@ -35,13 +36,20 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'ShopFlow — La mejor experiencia de compra online con los mejores productos al mejor precio.' },
+        {
+          name: 'description',
+          content:
+            'ShopFlow — La mejor experiencia de compra online con los mejores productos al mejor precio.',
+        },
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap' },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
+        },
       ],
     },
   },
@@ -57,4 +65,4 @@ export default defineNuxtConfig({
 
   // Compatibility
   compatibilityDate: '2024-04-03',
-})
+});

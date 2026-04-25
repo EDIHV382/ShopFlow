@@ -11,7 +11,10 @@
             <button @click="$emit('cancel')" class="btn btn-secondary btn-md flex-1">
               {{ cancelText }}
             </button>
-            <button @click="$emit('confirm')" :class="['btn btn-md flex-1', dangerConfirm ? 'btn-danger' : 'btn-primary']">
+            <button
+              @click="$emit('confirm')"
+              :class="['btn btn-md flex-1', dangerConfirm ? 'btn-danger' : 'btn-primary']"
+            >
               {{ confirmText }}
             </button>
           </div>
@@ -23,13 +26,13 @@
 
 <script setup lang="ts">
 interface Props {
-  show: boolean
-  title: string
-  message?: string
-  icon?: string
-  confirmText?: string
-  cancelText?: string
-  dangerConfirm?: boolean
+  show: boolean;
+  title: string;
+  message?: string;
+  icon?: string;
+  confirmText?: string;
+  cancelText?: string;
+  dangerConfirm?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   message: '¿Estás seguro de continuar?',
@@ -37,11 +40,17 @@ withDefaults(defineProps<Props>(), {
   confirmText: 'Confirmar',
   cancelText: 'Cancelar',
   dangerConfirm: false,
-})
-defineEmits<{ confirm: []; cancel: [] }>()
+});
+defineEmits<{ confirm: []; cancel: [] }>();
 </script>
 
 <style scoped>
-.modal-enter-active, .modal-leave-active { transition: opacity 0.2s ease; }
-.modal-enter-from, .modal-leave-to { opacity: 0; }
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
 </style>

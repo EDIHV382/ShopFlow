@@ -9,6 +9,7 @@ vendor/
 .env.*.local
 
 # Build outputs
+dist/
 client/.output/
 client/.nuxt/
 client/dist/

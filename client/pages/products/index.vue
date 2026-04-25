@@ -9,7 +9,13 @@
           <!-- Search -->
           <div>
             <label class="label">Búsqueda</label>
-            <input v-model="localSearch" type="search" placeholder="Buscar producto..." class="input" @keyup.enter="applyFilters" />
+            <input
+              v-model="localSearch"
+              type="search"
+              placeholder="Buscar producto..."
+              class="input"
+              @keyup.enter="applyFilters"
+            />
           </div>
 
           <!-- Category -->
@@ -17,7 +23,9 @@
             <label class="label">Categoría</label>
             <select v-model="localCategory" class="input">
               <option value="">Todas las categorías</option>
-              <option v-for="cat in categories" :key="cat.id" :value="cat.slug">{{ cat.name }}</option>
+              <option v-for="cat in categories" :key="cat.id" :value="cat.slug">
+                {{ cat.name }}
+              </option>
             </select>
           </div>
 
@@ -25,16 +33,35 @@
           <div>
             <label class="label">Rango de precio</label>
             <div class="flex gap-2 items-center">
-              <input v-model.number="localMinPrice" type="number" placeholder="Mín" class="input text-sm" min="0" />
+              <input
+                v-model.number="localMinPrice"
+                type="number"
+                placeholder="Mín"
+                class="input text-sm"
+                min="0"
+              />
               <span class="text-dark-500 text-sm">—</span>
-              <input v-model.number="localMaxPrice" type="number" placeholder="Máx" class="input text-sm" min="0" />
+              <input
+                v-model.number="localMaxPrice"
+                type="number"
+                placeholder="Máx"
+                class="input text-sm"
+                min="0"
+              />
             </div>
           </div>
 
           <!-- Availability -->
           <div class="flex items-center gap-3">
-            <input id="available" v-model="localAvailable" type="checkbox" class="w-4 h-4 rounded accent-primary-500" />
-            <label for="available" class="text-sm text-dark-300 cursor-pointer">Solo disponibles</label>
+            <input
+              id="available"
+              v-model="localAvailable"
+              type="checkbox"
+              class="w-4 h-4 rounded accent-primary-500"
+            />
+            <label for="available" class="text-sm text-dark-300 cursor-pointer"
+              >Solo disponibles</label
+            >
           </div>
 
           <div class="flex gap-2">
@@ -93,87 +120,99 @@
 </template>
 
 <script setup lang="ts">
-import type { Product, PaginatedResponse, Category } from '~/types'
+import type { Product, PaginatedResponse, Category } from '~/types';
 
-definePageMeta({ layout: 'default' })
+definePageMeta({ layout: 'default' });
 useSeoMeta({
   title: 'Catálogo de productos — ShopFlow',
   description: 'Explora más de 50 productos con filtros por categoría, precio y disponibilidad.',
-})
+});
 
-const route = useRoute()
-const router = useRouter()
-const api = useApi()
+const route = useRoute();
+const router = useRouter();
+const api = useApi();
 
-const products = ref<Product[]>([])
-const categories = ref<Category[]>([])
-const meta = ref<PaginatedResponse<Product>['meta'] | null>(null)
-const loading = ref(true)
-const currentPage = ref(1)
+const products = ref<Product[]>([]);
+const categories = ref<Category[]>([]);
+const meta = ref<PaginatedResponse<Product>['meta'] | null>(null);
+const loading = ref(true);
+const currentPage = ref(1);
 
 // Local filter state
-const localSearch = ref(String(route.query.search || ''))
-const localCategory = ref(String(route.query.category || ''))
-const localMinPrice = ref<number | ''>(route.query.minPrice ? Number(route.query.minPrice) : '')
-const localMaxPrice = ref<number | ''>(route.query.maxPrice ? Number(route.query.maxPrice) : '')
-const localAvailable = ref(route.query.available === 'true')
-const localSort = ref(String(route.query.sortBy || 'newest'))
+const localSearch = ref(String(route.query.search || ''));
+const localCategory = ref(String(route.query.category || ''));
+const localMinPrice = ref<number | ''>(route.query.minPrice ? Number(route.query.minPrice) : '');
+const localMaxPrice = ref<number | ''>(route.query.maxPrice ? Number(route.query.maxPrice) : '');
+const localAvailable = ref(route.query.available === 'true');
+const localSort = ref(String(route.query.sortBy || 'newest'));
 
 async function fetchProducts() {
-  loading.value = true
+  loading.value = true;
   try {
     const params: Record<string, string | number | boolean> = {
       page: currentPage.value,
       limit: 12,
       sortBy: localSort.value,
+    };
+    if (localSearch.value) {
+      params.search = localSearch.value;
     }
-    if (localSearch.value) params.search = localSearch.value
-    if (localCategory.value) params.category = localCategory.value
-    if (localMinPrice.value !== '') params.minPrice = localMinPrice.value
-    if (localMaxPrice.value !== '') params.maxPrice = localMaxPrice.value
-    if (localAvailable.value) params.available = true
+    if (localCategory.value) {
+      params.category = localCategory.value;
+    }
+    if (localMinPrice.value !== '') {
+      params.minPrice = localMinPrice.value;
+    }
+    if (localMaxPrice.value !== '') {
+      params.maxPrice = localMaxPrice.value;
+    }
+    if (localAvailable.value) {
+      params.available = true;
+    }
 
-    const result = await api.get<PaginatedResponse<Product>>('/products', params)
-    products.value = result.data
-    meta.value = result.meta
+    const result = await api.get<PaginatedResponse<Product>>('/products', params);
+    products.value = result.data;
+    meta.value = result.meta;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
 function applyFilters() {
-  currentPage.value = 1
-  router.replace({ query: {
-    ...(localSearch.value && { search: localSearch.value }),
-    ...(localCategory.value && { category: localCategory.value }),
-    ...(localMinPrice.value !== '' && { minPrice: String(localMinPrice.value) }),
-    ...(localMaxPrice.value !== '' && { maxPrice: String(localMaxPrice.value) }),
-    ...(localAvailable.value && { available: 'true' }),
-    sortBy: localSort.value,
-  }})
-  fetchProducts()
+  currentPage.value = 1;
+  router.replace({
+    query: {
+      ...(localSearch.value && { search: localSearch.value }),
+      ...(localCategory.value && { category: localCategory.value }),
+      ...(localMinPrice.value !== '' && { minPrice: String(localMinPrice.value) }),
+      ...(localMaxPrice.value !== '' && { maxPrice: String(localMaxPrice.value) }),
+      ...(localAvailable.value && { available: 'true' }),
+      sortBy: localSort.value,
+    },
+  });
+  fetchProducts();
 }
 
 function clearFilters() {
-  localSearch.value = ''
-  localCategory.value = ''
-  localMinPrice.value = ''
-  localMaxPrice.value = ''
-  localAvailable.value = false
-  localSort.value = 'newest'
-  currentPage.value = 1
-  router.replace({ query: {} })
-  fetchProducts()
+  localSearch.value = '';
+  localCategory.value = '';
+  localMinPrice.value = '';
+  localMaxPrice.value = '';
+  localAvailable.value = false;
+  localSort.value = 'newest';
+  currentPage.value = 1;
+  router.replace({ query: {} });
+  fetchProducts();
 }
 
 function onPageChange(page: number) {
-  currentPage.value = page
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-  fetchProducts()
+  currentPage.value = page;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  fetchProducts();
 }
 
 onMounted(async () => {
-  categories.value = await api.get<Category[]>('/categories')
-  await fetchProducts()
-})
+  categories.value = await api.get<Category[]>('/categories');
+  await fetchProducts();
+});
 </script>
