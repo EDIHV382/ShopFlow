@@ -3,9 +3,9 @@ import { setActivePinia, createPinia } from 'pinia';
 import { useCartStore } from '../../stores/cart';
 import type { Product } from '../../types';
 
-// Mock Nuxt globals
-vi.stubGlobal('process', { client: true });
-vi.stubGlobal('useRuntimeConfig', () => ({ public: { apiBase: 'http://localhost:3000' } }));
+vi.mock('#app', () => ({
+  useRuntimeConfig: () => ({ public: { apiBase: 'http://localhost:3000' } }),
+}));
 
 const mockFetch = vi.fn();
 vi.stubGlobal('$fetch', mockFetch);

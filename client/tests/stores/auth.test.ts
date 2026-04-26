@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useAuthStore } from '../../stores/auth';
 
-// Mock Nuxt globals
-vi.stubGlobal('process', { client: true });
-vi.stubGlobal('useRuntimeConfig', () => ({ public: { apiBase: 'http://localhost:3000' } }));
+vi.mock('#app', () => ({
+  useRuntimeConfig: () => ({ public: { apiBase: 'http://localhost:3000' } }),
+}));
 
 const mockFetch = vi.fn();
 vi.stubGlobal('$fetch', mockFetch);
