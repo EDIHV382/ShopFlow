@@ -2,23 +2,13 @@
 // DELETE /api/categories/:id — delete (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
-import { z } from 'zod';
-import type { Category } from '../_lib/types';
-
-const updateSchema = z.object({
-  name: z.string().min(1).max(255).optional(),
-  slug: z
-    .string()
-    .regex(/^[a-z0-9-]+$/)
-    .optional(),
-});
+import { applyMiddleware, handleOptions, requireAdmin } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   const admin = requireAdmin(req, res);
   if (!admin) {

@@ -1,19 +1,13 @@
 // GET /api/admin/sales-chart?days=30 — daily sales aggregation for chart
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
-
-interface SalesChartDay {
-  date: string;
-  total: number;
-  orders: number;
-}
+import { applyMiddleware, handleOptions, requireAdmin } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   if (!requireAdmin(req, res)) {
     return;

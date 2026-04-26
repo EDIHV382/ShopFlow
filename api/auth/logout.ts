@@ -2,13 +2,13 @@
 // JWT is stateless — logout is handled client-side by deleting the token.
 // This endpoint exists for API completeness and future token blacklist support.
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { setCorsHeaders, handleOptions } from '../_lib/middleware';
+import { applyMiddleware, handleOptions } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });

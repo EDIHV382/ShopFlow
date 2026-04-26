@@ -2,24 +2,13 @@
 // POST /api/categories — create (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
-import { z } from 'zod';
-import type { Category } from '../_lib/types';
-
-const createSchema = z.object({
-  name: z.string().min(1).max(255),
-  slug: z
-    .string()
-    .min(1)
-    .max(255)
-    .regex(/^[a-z0-9-]+$/, 'Slug solo puede contener letras minúsculas, números y guiones'),
-});
+import { applyMiddleware, handleOptions, requireAdmin } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   if (req.method === 'GET') {
     const categories = await query<Category & { product_count: number }>(

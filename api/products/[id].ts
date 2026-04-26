@@ -3,24 +3,13 @@
 // DELETE /api/products/:id — delete product (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
-import { z } from 'zod';
-import type { Product } from '../_lib/types';
-
-const updateProductSchema = z.object({
-  name: z.string().min(1).max(255).optional(),
-  description: z.string().optional(),
-  price: z.number().positive().optional(),
-  stock: z.number().int().min(0).optional(),
-  images: z.array(z.string()).optional(),
-  category_id: z.number().int().positive().nullable().optional(),
-});
+import { applyMiddleware, handleOptions, requireAdmin } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   const id = parseInt(String(req.query.id), 10);
   if (isNaN(id)) {

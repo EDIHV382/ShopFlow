@@ -1,14 +1,13 @@
 // GET /api/auth/me — returns current authenticated user
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { queryOne } from '../_lib/db';
-import { requireAuth, setCorsHeaders, handleOptions } from '../_lib/middleware';
-import type { User } from '../_lib/types';
+import { requireAuth, applyMiddleware, handleOptions } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Método no permitido' });

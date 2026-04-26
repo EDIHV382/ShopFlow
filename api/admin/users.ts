@@ -5,27 +5,13 @@
 // DELETE /api/admin/users?id=X — delete user
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
-import { getPaginationParams } from '../_lib/pagination';
-import { z } from 'zod';
-
-interface AdminUser {
-  id: number;
-  name: string;
-  email: string;
-  roles: string[];
-  created_at: Date;
-}
-
-const patchSchema = z.object({
-  roles: z.array(z.enum(['ROLE_USER', 'ROLE_ADMIN'])).min(1),
-});
+import { applyMiddleware, handleOptions, requireAdmin } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   const admin = requireAdmin(req, res);
   if (!admin) {

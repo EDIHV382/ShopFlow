@@ -2,14 +2,13 @@
 // DELETE /api/cart — clear the entire cart
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAuth } from '../_lib/middleware';
-import type { Cart, CartItem } from '../_lib/types';
+import { applyMiddleware, handleOptions, requireAuth } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  setCorsHeaders(res);
+  applyMiddleware(req, res);
 
   const payload = requireAuth(req, res);
   if (!payload) {
