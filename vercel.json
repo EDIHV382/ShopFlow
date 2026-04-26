@@ -2,8 +2,10 @@
   "buildCommand": "cd client && npm install && npm run generate",
   "outputDirectory": "client/.output/public",
   "installCommand": "npm install",
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.js" },
-    { "source": "/(.*)", "destination": "/client/.output/public/$1" }
-  ]
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "@vercel/node@3"
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/client/.output/public/$1" }]
 }
