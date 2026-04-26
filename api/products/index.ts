@@ -2,13 +2,25 @@
 // POST /api/products — create product (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../_lib/db';
-import { applyMiddleware, handleOptions, requireAdmin } from '../_lib/middleware';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
+import { getPaginationParams, formatPaginatedResponse } from '../_lib/pagination';
+import { z } from 'zod';
+import type { Product } from '../_lib/types';
+
+const createProductSchema = z.object({
+  name: z.string().min(1).max(255),
+  description: z.string().default(''),
+  price: z.number().positive(),
+  stock: z.number().int().min(0),
+  images: z.array(z.string()).default([]),
+  category_id: z.number().int().positive().nullable().optional(),
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  applyMiddleware(req, res);
+  setCorsHeaders(res);
 
   if (req.method === 'GET') {
     const { page, limit, offset } = getPaginationParams(req.query);

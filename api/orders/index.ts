@@ -2,13 +2,30 @@
 // POST /api/orders — create new order
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../_lib/db';
-import { applyMiddleware, handleOptions, requireAuth } from '../_lib/middleware';
+import { setCorsHeaders, handleOptions, requireAuth } from '../_lib/middleware';
+import { z } from 'zod';
+import type { Order, OrderItem, Cart } from '../_lib/types';
+
+const shippingAddressSchema = z.object({
+  fullName: z.string().min(2),
+  address: z.string().min(5),
+  city: z.string().min(2),
+  state: z.string().min(2),
+  postalCode: z.string().min(3),
+  country: z.string().min(2),
+  phone: z.string().min(7),
+});
+
+const createOrderSchema = z.object({
+  shippingAddress: shippingAddressSchema,
+  stripePaymentId: z.string().min(1),
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  applyMiddleware(req, res);
+  setCorsHeaders(res);
 
   const payload = requireAuth(req, res);
   if (!payload) {

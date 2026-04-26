@@ -1,0 +1,6 @@
+{
+  "name": "NUXT_PUBLIC_API_BASE",
+  "value": "https://shopflow-demo-2026.vercel.app",
+  "type": "plain",
+  "configurationTypes": ["production", "preview"]
+}

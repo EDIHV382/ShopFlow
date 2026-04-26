@@ -1,13 +1,15 @@
 // GET /api/admin/orders — all orders (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query } from '../../_lib/db';
-import { applyMiddleware, handleOptions, requireAdmin } from '../../_lib/middleware';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../../_lib/middleware';
+import { getPaginationParams } from '../../_lib/pagination';
+import type { Order } from '../../_lib/types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  applyMiddleware(req, res);
+  setCorsHeaders(res);
 
   const admin = requireAdmin(req, res);
   if (!admin) {

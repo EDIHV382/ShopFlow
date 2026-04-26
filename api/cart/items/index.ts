@@ -1,13 +1,20 @@
 // POST /api/cart/items — add item to cart
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../../_lib/db';
-import { applyMiddleware, handleOptions, requireAuth } from '../../_lib/middleware';
+import { setCorsHeaders, handleOptions, requireAuth } from '../../_lib/middleware';
+import { z } from 'zod';
+import type { Cart, CartItem } from '../../_lib/types';
+
+const addItemSchema = z.object({
+  product_id: z.number().int().positive(),
+  quantity: z.number().int().min(1).max(99).default(1),
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
     return;
   }
-  applyMiddleware(req, res);
+  setCorsHeaders(res);
 
   const payload = requireAuth(req, res);
   if (!payload) {
