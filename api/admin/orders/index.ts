@@ -1,7 +1,8 @@
 // GET /api/admin/orders — all orders (ROLE_ADMIN)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query } from '../../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin, getPagination } from '../../_lib/middleware';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../../_lib/middleware';
+import { getPaginationParams } from '../../_lib/pagination';
 import type { Order } from '../../_lib/types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -19,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const { page, limit, offset } = getPagination(req.query);
+  const { page, limit, offset } = getPaginationParams(req.query);
   const { status } = req.query;
 
   let whereClause = '';

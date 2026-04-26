@@ -44,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Credenciales incorrectas' });
   }
 
-  const roles = Array.isArray(user.roles) ? user.roles : JSON.parse(user.roles as any);
+  const roles = Array.isArray(user.roles) ? user.roles : JSON.parse(user.roles as string);
   const token = signToken({ userId: user.id, email: user.email, roles });
 
   return res.status(200).json({

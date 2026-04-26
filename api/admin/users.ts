@@ -5,7 +5,8 @@
 // DELETE /api/admin/users?id=X — delete user
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, queryOne } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin, getPagination } from '../_lib/middleware';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
+import { getPaginationParams } from '../_lib/pagination';
 import { z } from 'zod';
 
 interface AdminUser {
@@ -33,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // GET /api/admin/users
   if (req.method === 'GET') {
-    const { page, limit, offset } = getPagination(req.query);
+    const { page, limit, offset } = getPaginationParams(req.query);
     const search = req.query.search as string | undefined;
 
     const params: unknown[] = [];

@@ -173,13 +173,13 @@ async function toggleRole(user: AdminUser) {
     if (idx !== -1) {
       users.value[idx] = updated;
     }
-    ($toast as any).success(
+    ($toast as ReturnType<typeof useToast>).success(
       isAdmin(updated)
         ? `${user.name} ahora es administrador`
         : `${user.name} ya no es administrador`,
     );
   } catch (err: unknown) {
-    ($toast as any).error(err instanceof Error ? err.message : 'Error');
+    ($toast as ReturnType<typeof useToast>).error(err instanceof Error ? err.message : 'Error');
   } finally {
     toggling.value = null;
   }
@@ -196,11 +196,11 @@ async function deleteUser() {
   const name = deletingUser.value.name;
   try {
     await api.del(`/admin/users?id=${deletingUser.value.id}`);
-    ($toast as any).success(`Usuario '${name}' eliminado`);
+    ($toast as ReturnType<typeof useToast>).success(`Usuario '${name}' eliminado`);
     deletingUser.value = null;
     await load(page.value);
   } catch (err: unknown) {
-    ($toast as any).error(err instanceof Error ? err.message : 'Error');
+    ($toast as ReturnType<typeof useToast>).error(err instanceof Error ? err.message : 'Error');
   }
 }
 

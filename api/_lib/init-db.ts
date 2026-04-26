@@ -3,15 +3,11 @@
 // Run BEFORE first deploy and BEFORE seeding
 
 import pg from 'pg';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
 const { Pool } = pg;
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

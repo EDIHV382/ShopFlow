@@ -2,13 +2,13 @@
 
 # 🛍️ ShopFlow
 
+[![CI/CD](https://github.com/EDIHV382/ShopFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/EDIHV382/ShopFlow/actions/workflows/ci.yml)
 [![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://shopflow-demo-2026.vercel.app/)
 [![Nuxt 3](https://img.shields.io/badge/Nuxt-3-00DC82?style=for-the-badge&logo=nuxt.js&logoColor=white)](https://nuxt.com/)
 [![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Stripe](https://img.shields.io/badge/Stripe-Payments-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com/)
 [![PostgreSQL](https://img.shields.io/badge/Neon-PostgreSQL-00E5BF?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
-[![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/EDIHV382/ShopFlow/actions)
 
 **Aplicación de e-commerce fullstack de nivel producción construida como proyecto de portafolio.**  
 Autenticación JWT · Catálogo con filtros · Pagos con Stripe · Panel de administración · SSR con Nuxt 3
@@ -267,14 +267,14 @@ npm run deploy
 
 Ve a tu proyecto en [vercel.com](https://vercel.com) → **Settings** → **Environment Variables** y agrega:
 
-| Variable                | Entorno             |
-| ----------------------- | ------------------- |
-| `DATABASE_URL`          | Production, Preview |
-| `JWT_SECRET`            | Production, Preview |
-| `STRIPE_SECRET_KEY`     | Production, Preview |
-| `STRIPE_WEBHOOK_SECRET` | Production          |
-| `STRIPE_PUBLIC_KEY`     | Production, Preview |
-| `NUXT_PUBLIC_API_BASE`  | Production, Preview |
+| Variable                | Entorno             | Descripción                                           |
+| ----------------------- | ------------------- | ----------------------------------------------------- |
+| `DATABASE_URL`          | Production, Preview | URL de conexión a Neon PostgreSQL con SSL             |
+| `JWT_SECRET`            | Production, Preview | Secreto para firmar tokens JWT (mínimo 32 caracteres) |
+| `STRIPE_SECRET_KEY`     | Production, Preview | Stripe secret key (sk*test*... o sk*live*...)         |
+| `STRIPE_WEBHOOK_SECRET` | Production          | Stripe webhook signing secret (whsec\_...)            |
+| `STRIPE_PUBLIC_KEY`     | Production, Preview | Stripe publishable key (pk*test*... o pk*live*...)    |
+| `NUXT_PUBLIC_API_BASE`  | Production, Preview | URL base de la API (dominio de Vercel)                |
 
 > **`NUXT_PUBLIC_API_BASE`** debe apuntar a tu dominio de Vercel:  
 > Ej: `https://shopflow-demo-2026.vercel.app`
@@ -345,6 +345,78 @@ ShopFlow/
 ├── 📄 package.json                  # Scripts raíz del monorepo
 └── 📄 README.md
 ```
+
+---
+
+## 🏗️ Arquitectura del Sistema
+
+```mermaid
+graph TD
+    A[Cliente Nuxt 3] -->|HTTPS| B[Vercel Edge Network]
+    B -->|Serverless Functions| C[Express API]
+    C -->|Zod Validation| D[Middleware]
+    D -->|JWT Auth| E[Auth Middleware]
+    D -->|Admin Check| F[Admin Middleware]
+    D -->|Rate Limit| G[Rate Limiter]
+    E -->|SQL Queries| H[Neon PostgreSQL]
+    F -->|SQL Queries| H
+    C -->|Stripe API| I[Stripe]
+    I -->|Webhooks| C
+    H -->|SSL Connection| J[Database Pool]
+```
+
+### Flujo de Datos
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐     ┌──────────────┐
+│   Nuxt 3    │────>│ Vercel CDN   │────>│ Express API │────>│   Neon DB    │
+│  (Client)   │<────│  (Edge Net)  │<────│ (Node.js)   │<────│ (PostgreSQL) │
+└─────────────┘     └──────────────┘     └─────────────┘     └──────────────┘
+       │                    │                    │                    │
+       │                    │                    │                    │
+       └────────────────────┴────────────────────┴────────────────────┘
+                            │                    │
+                            │                    └───> Stripe API
+                            │
+                            └───> Stripe Webhooks
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### Error 1: "Cannot connect to database"
+
+**Causa:** La URL de conexión a Neon PostgreSQL es inválida o la base de datos no está accesible.
+
+**Solución:**
+
+1. Verifica que `DATABASE_URL` en `.env` tenga el formato correcto:
+   ```
+   DATABASE_URL=postgresql://user:password@host.neon.tech/dbname?sslmode=require
+   ```
+2. Asegúrate de que el modo SSL esté habilitado (`sslmode=require`)
+3. Ejecuta `npm run db:init` para verificar la conexión
+
+### Error 2: "Stripe webhook signature invalid"
+
+**Causa:** El webhook secret no coincide o el cuerpo del request fue modificado.
+
+**Solución:**
+
+1. Obtén el webhook secret desde [Stripe Dashboard](https://dashboard.stripe.com/webhooks)
+2. Actualiza `STRIPE_WEBHOOK_SECRET` en tu `.env`
+3. En local, usa `stripe listen --forward-to localhost:3000/api/stripe/webhook`
+
+### Error 3: "JWT token expired" o "Token inválido"
+
+**Causa:** El token JWT expiró (7 días) o fue modificado.
+
+**Solución:**
+
+1. Cierra sesión y vuelve a iniciar
+2. Limpia el localStorage: `localStorage.clear()`
+3. Verifica que `JWT_SECRET` en `.env` sea el mismo que en producción
 
 ---
 

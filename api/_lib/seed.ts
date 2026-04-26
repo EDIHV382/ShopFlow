@@ -503,9 +503,9 @@ async function seed() {
     console.log('✅ Users seeded (admin@shopflow.com, cliente@shopflow.com)');
 
     // Seed categories
-    const catMap = {};
+    const catMap: Record<string, number> = {};
     for (const cat of categories) {
-      const result = await client.query(
+      const result = await client.query<{ id: number }>(
         `INSERT INTO categories (name, slug) VALUES ($1, $2) RETURNING id`,
         [cat.name, cat.slug],
       );
@@ -515,7 +515,7 @@ async function seed() {
 
     // Seed products
     for (const product of products) {
-      const categoryId = catMap[product.category];
+      const categoryId = catMap[product.category]!;
       await client.query(
         `INSERT INTO products (name, description, price, stock, images, category_id)
          VALUES ($1, $2, $3, $4, $5, $6)`,

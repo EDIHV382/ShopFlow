@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(404).json({ error: 'Usuario no encontrado' });
   }
 
-  const roles = Array.isArray(user.roles) ? user.roles : JSON.parse(user.roles as any);
+  const roles = Array.isArray(user.roles) ? user.roles : JSON.parse(user.roles as string);
 
   return res.status(200).json({
     id: user.id,

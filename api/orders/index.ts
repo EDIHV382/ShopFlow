@@ -57,8 +57,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: parsed.error.errors[0].message });
     }
 
-    const { shippingAddress: _shippingAddress, stripePaymentId: _stripePaymentId } = parsed.data;
-
     // DEMO MOCK: Vaciar el carrito sin alterar la tabla 'orders' ni 'products'
     const cart = await queryOne<Cart>('SELECT id FROM carts WHERE user_id = $1', [payload.userId]);
     if (cart) {

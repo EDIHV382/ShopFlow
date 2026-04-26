@@ -116,7 +116,7 @@ async function handleLogin() {
     await cartStore.syncFromBackend(data.token);
     const redirect = String(route.query.redirect || '/');
     router.push(redirect);
-  } catch (_: unknown) {
+  } catch {
     error.value = 'Email o contraseña incorrectos';
   } finally {
     loading.value = false;

@@ -132,7 +132,7 @@ async function load(newPage = 1) {
     params.status = filterStatus.value;
   }
   const result = await api.get<PaginatedResponse<Order>>('/admin/orders', params);
-  orders.value = result.data as any;
+  orders.value = result.data as unknown as Order[];
   meta.value = result.meta;
   loading.value = false;
 }

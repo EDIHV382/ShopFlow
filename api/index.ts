@@ -7,26 +7,26 @@ import pino from 'pino';
 import { z } from 'zod';
 
 // Import all route handlers
-import productsIndex from './_routes/products/index';
-import productsId from './_routes/products/[id]';
-import categoriesIndex from './_routes/categories/index';
-import categoriesId from './_routes/categories/[id]';
-import authLogin from './_routes/auth/login';
-import authRegister from './_routes/auth/register';
-import authMe from './_routes/auth/me';
-import authLogout from './_routes/auth/logout';
-import cartIndex from './_routes/cart/index';
-import cartItemsIndex from './_routes/cart/items/index';
-import cartItemsId from './_routes/cart/items/[id]';
-import ordersIndex from './_routes/orders/index';
-import ordersId from './_routes/orders/[id]';
-import adminDashboard from './_routes/admin/dashboard';
-import adminUsers from './_routes/admin/users';
-import adminOrdersIndex from './_routes/admin/orders/index';
-import adminOrdersStatus from './_routes/admin/orders/[id]/status';
-import adminSalesChart from './_routes/admin/sales-chart';
-import stripeCreatePaymentIntent from './_routes/stripe/create-payment-intent';
-import stripeWebhook from './_routes/stripe/webhook';
+import productsIndex from './products/index';
+import productsId from './products/[id]';
+import categoriesIndex from './categories/index';
+import categoriesId from './categories/[id]';
+import authLogin from './auth/login';
+import authRegister from './auth/register';
+import authMe from './auth/me';
+import authLogout from './auth/logout';
+import cartIndex from './cart/index';
+import cartItemsIndex from './cart/items/index';
+import cartItemsId from './cart/items/[id]';
+import ordersIndex from './orders/index';
+import ordersId from './orders/[id]';
+import adminDashboard from './admin/dashboard';
+import adminUsers from './admin/users';
+import adminOrdersIndex from './admin/orders/index';
+import adminOrdersStatus from './admin/orders/[id]/status';
+import adminSalesChart from './admin/sales-chart';
+import stripeCreatePaymentIntent from './stripe/create-payment-intent';
+import stripeWebhook from './stripe/webhook';
 
 const logger = pino({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
@@ -75,6 +75,7 @@ const authLimiter = rateLimit({
 });
 
 // Stripe webhook needs raw body, so we define it before express.json()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 app.all('/api/stripe/webhook', express.raw({ type: 'application/json' }), stripeWebhook as any);
 
 // Parse JSON bodies
@@ -86,6 +87,7 @@ app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 
 // Adapt Vercel req/res to Express
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function adapt(handler: any, idParamName: string = 'id') {
   return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
@@ -110,6 +112,7 @@ import {
 } from './_lib/schemas';
 
 // Validation Middleware Helper
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function validateBody(schema: z.ZodType<any, any>) {
   return (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const parsed = schema.safeParse(req.body);
@@ -161,7 +164,9 @@ app.get('/api/admin/sales-chart', adapt(adminSalesChart));
 app.post('/api/stripe/create-payment-intent', adapt(stripeCreatePaymentIntent));
 
 // Catch 404
-app.all(/^.*$/, (req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
+app.all(/^.*$/, (req: express.Request, res: express.Response) =>
+  res.status(404).json({ error: 'Ruta no encontrada' }),
+);
 
 // Centralized Error Handler
 app.use(

@@ -1,6 +1,6 @@
 // GET /api/admin/dashboard — metrics for admin dashboard
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { queryOne, query } from '../_lib/db';
+import { query, queryOne } from '../_lib/db';
 import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -24,11 +24,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
      WHERE created_at >= CURRENT_DATE AND status != 'cancelled'`,
   );
 
-  const [pendingOrders] = await query<{ count: string }>(
+  const pendingOrders = await queryOne<{ count: string }>(
     `SELECT COUNT(*)::int as count FROM orders WHERE status = 'pending'`,
   );
 
-  const [processingOrders] = await query<{ count: string }>(
+  const processingOrders = await queryOne<{ count: string }>(
     `SELECT COUNT(*)::int as count FROM orders WHERE status = 'processing'`,
   );
 
@@ -36,11 +36,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     `SELECT id, name, stock FROM products WHERE stock <= 5 ORDER BY stock ASC LIMIT 10`,
   );
 
-  const [totalProducts] = await query<{ count: string }>(
+  const totalProducts = await queryOne<{ count: string }>(
     `SELECT COUNT(*)::int as count FROM products`,
   );
 
-  const [totalUsers] = await query<{ count: string }>(`SELECT COUNT(*)::int as count FROM users`);
+  const totalUsers = await queryOne<{ count: string }>(`SELECT COUNT(*)::int as count FROM users`);
 
   const recentOrders = await query<{
     id: number;
@@ -61,11 +61,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       total: parseFloat(todaySales?.total || '0'),
       count: parseInt(todaySales?.count || '0', 10),
     },
-    pendingOrders: parseInt(pendingOrders?.[0]?.count || '0', 10),
-    processingOrders: parseInt(processingOrders?.[0]?.count || '0', 10),
+    pendingOrders: parseInt(pendingOrders?.count || '0', 10),
+    processingOrders: parseInt(processingOrders?.count || '0', 10),
     lowStockProducts,
-    totalProducts: parseInt(totalProducts?.[0]?.count || '0', 10),
-    totalUsers: parseInt(totalUsers?.[0]?.count || '0', 10),
+    totalProducts: parseInt(totalProducts?.count || '0', 10),
+    totalUsers: parseInt(totalUsers?.count || '0', 10),
     recentOrders,
   });
 }

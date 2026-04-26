@@ -30,7 +30,7 @@ export function useApi() {
 
     return $fetch<T>(`${config.public.apiBase}/api${path}${query}`, {
       headers: getHeaders(),
-    });
+    }) as Promise<T>;
   }
 
   async function post<T>(
@@ -41,7 +41,7 @@ export function useApi() {
       method: 'POST',
       body,
       headers: getHeaders(),
-    });
+    }) as Promise<T>;
   }
 
   async function put<T>(
@@ -52,7 +52,7 @@ export function useApi() {
       method: 'PUT',
       body,
       headers: getHeaders(),
-    });
+    }) as Promise<T>;
   }
 
   async function patch<T>(
@@ -63,7 +63,7 @@ export function useApi() {
       method: 'PATCH',
       body,
       headers: getHeaders(),
-    });
+    }) as Promise<T>;
   }
 
   async function del(path: string): Promise<void> {
