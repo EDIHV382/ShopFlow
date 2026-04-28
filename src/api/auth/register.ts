@@ -1,6 +1,6 @@
 // POST /api/auth/register
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { setCorsHeaders, handleOptions } from '../../../_lib/middleware';
+import { setCorsHeaders, handleOptions } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {

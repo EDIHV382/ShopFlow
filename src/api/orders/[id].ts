@@ -1,8 +1,8 @@
 // GET /api/orders/:id — get single order (must belong to user)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../../../_lib/db';
-import { setCorsHeaders, handleOptions, requireAuth } from '../../../_lib/middleware';
-import type { Order, OrderItem } from '../../../_lib/types';
+import { query, queryOne } from '../_lib/db';
+import { setCorsHeaders, handleOptions, requireAuth } from '../_lib/middleware';
+import type { Order, OrderItem } from '../_lib/types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {

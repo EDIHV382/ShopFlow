@@ -6,7 +6,7 @@
   "framework": "nuxtjs",
   "functions": {
     "api/index.ts": {
-      "includeFiles": "api/_routes/**/*"
+      "includeFiles": "src/api/**/*"
     }
   },
   "rewrites": [

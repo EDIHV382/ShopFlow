@@ -1,9 +1,9 @@
 // POST /api/cart/items — add item to cart
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../../../_lib/db';
-import { setCorsHeaders, handleOptions, requireAuth } from '../../../_lib/middleware';
+import { query, queryOne } from '../../_lib/db';
+import { setCorsHeaders, handleOptions, requireAuth } from '../../_lib/middleware';
 import { z } from 'zod';
-import type { Cart, CartItem } from '../../../_lib/types';
+import type { Cart, CartItem } from '../../_lib/types';
 
 const addItemSchema = z.object({
   product_id: z.number().int().positive(),

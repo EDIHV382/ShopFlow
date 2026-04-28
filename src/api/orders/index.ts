@@ -1,10 +1,10 @@
 // GET /api/orders — authenticated user's order history
 // POST /api/orders — create new order
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../../../_lib/db';
-import { setCorsHeaders, handleOptions, requireAuth } from '../../../_lib/middleware';
+import { query, queryOne } from '../_lib/db';
+import { setCorsHeaders, handleOptions, requireAuth } from '../_lib/middleware';
 import { z } from 'zod';
-import type { Order, OrderItem, Cart } from '../../../_lib/types';
+import type { Order, OrderItem, Cart } from '../_lib/types';
 
 const shippingAddressSchema = z.object({
   fullName: z.string().min(2),

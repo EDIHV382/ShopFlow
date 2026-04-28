@@ -1,10 +1,10 @@
 // PUT /api/cart/items/:id — update item quantity
 // DELETE /api/cart/items/:id — remove item from cart
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../../../_lib/db';
-import { setCorsHeaders, handleOptions, requireAuth } from '../../../_lib/middleware';
+import { query, queryOne } from '../../_lib/db';
+import { setCorsHeaders, handleOptions, requireAuth } from '../../_lib/middleware';
 import { z } from 'zod';
-import type { CartItem } from '../../../_lib/types';
+import type { CartItem } from '../../_lib/types';
 
 const updateSchema = z.object({
   quantity: z.number().int().min(1).max(99),

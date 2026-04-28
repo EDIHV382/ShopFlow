@@ -10,26 +10,26 @@ import pino from 'pino';
 import { z } from 'zod';
 
 // Import all route handlers
-import productsIndex from './_routes/products/index';
-import productsId from './_routes/products/[id]';
-import categoriesIndex from './_routes/categories/index';
-import categoriesId from './_routes/categories/[id]';
-import authLogin from './_routes/auth/login';
-import authRegister from './_routes/auth/register';
-import authMe from './_routes/auth/me';
-import authLogout from './_routes/auth/logout';
-import cartIndex from './_routes/cart/index';
-import cartItemsIndex from './_routes/cart/items/index';
-import cartItemsId from './_routes/cart/items/[id]';
-import ordersIndex from './_routes/orders/index';
-import ordersId from './_routes/orders/[id]';
-import adminDashboard from './_routes/admin/dashboard';
-import adminUsers from './_routes/admin/users';
-import adminOrdersIndex from './_routes/admin/orders/index';
-import adminOrdersStatus from './_routes/admin/orders/[id]/status';
-import adminSalesChart from './_routes/admin/sales-chart';
-import stripeCreatePaymentIntent from './_routes/stripe/create-payment-intent';
-import stripeWebhook from './_routes/stripe/webhook';
+import productsIndex from '../src/api/products/index';
+import productsId from '../src/api/products/[id]';
+import categoriesIndex from '../src/api/categories/index';
+import categoriesId from '../src/api/categories/[id]';
+import authLogin from '../src/api/auth/login';
+import authRegister from '../src/api/auth/register';
+import authMe from '../src/api/auth/me';
+import authLogout from '../src/api/auth/logout';
+import cartIndex from '../src/api/cart/index';
+import cartItemsIndex from '../src/api/cart/items/index';
+import cartItemsId from '../src/api/cart/items/[id]';
+import ordersIndex from '../src/api/orders/index';
+import ordersId from '../src/api/orders/[id]';
+import adminDashboard from '../src/api/admin/dashboard';
+import adminUsers from '../src/api/admin/users';
+import adminOrdersIndex from '../src/api/admin/orders/index';
+import adminOrdersStatus from '../src/api/admin/orders/[id]/status';
+import adminSalesChart from '../src/api/admin/sales-chart';
+import stripeCreatePaymentIntent from '../src/api/stripe/create-payment-intent';
+import stripeWebhook from '../src/api/stripe/webhook';
 
 const logger = pino({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',

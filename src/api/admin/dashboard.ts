@@ -1,7 +1,7 @@
 // GET /api/admin/dashboard — metrics for admin dashboard
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../../../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../../../_lib/middleware';
+import { query, queryOne } from '../_lib/db';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {

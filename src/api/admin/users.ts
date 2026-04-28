@@ -4,9 +4,9 @@
 // PATCH /api/admin/users?id=X  — toggle admin role
 // DELETE /api/admin/users?id=X — delete user
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../../../_lib/db';
-import { setCorsHeaders, handleOptions, requireAdmin } from '../../../_lib/middleware';
-import { getPaginationParams } from '../../../_lib/pagination';
+import { query, queryOne } from '../_lib/db';
+import { setCorsHeaders, handleOptions, requireAdmin } from '../_lib/middleware';
+import { getPaginationParams } from '../_lib/pagination';
 import { z } from 'zod';
 
 interface AdminUser {
