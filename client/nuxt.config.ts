@@ -5,9 +5,12 @@ export default defineNuxtConfig({
   // SSR enabled for SEO
   ssr: true,
 
-  // Static generation for Vercel (same as Taskflow pattern)
+  // Static generation for Vercel
   nitro: {
     preset: 'static',
+    prerender: {
+      routes: ['/'],
+    },
   },
 
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/sitemap'],
@@ -17,9 +20,10 @@ export default defineNuxtConfig({
   },
 
   // Runtime config — NUXT_PUBLIC_API_BASE is set via env var
+  // In production, use empty string for same-origin requests
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000',
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || '',
       stripePublicKey: process.env.STRIPE_PUBLIC_KEY || '',
     },
   },

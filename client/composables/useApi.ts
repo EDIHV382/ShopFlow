@@ -3,6 +3,9 @@ export function useApi() {
   const config = useRuntimeConfig();
   const authStore = useAuthStore();
 
+  // Use relative URL in production (same origin), full URL in dev
+  const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
+
   function getHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -28,7 +31,7 @@ export function useApi() {
         ).toString()
       : '';
 
-    return $fetch<T>(`${config.public.apiBase}/api${path}${query}`, {
+    return $fetch<T>(`${baseUrl}/api${path}${query}`, {
       headers: getHeaders(),
     }) as Promise<T>;
   }
@@ -37,7 +40,7 @@ export function useApi() {
     path: string,
     body?: Record<string, unknown> | FormData | null,
   ): Promise<T> {
-    return $fetch<T>(`${config.public.apiBase}/api${path}`, {
+    return $fetch<T>(`${baseUrl}/api${path}`, {
       method: 'POST',
       body,
       headers: getHeaders(),
@@ -48,7 +51,7 @@ export function useApi() {
     path: string,
     body?: Record<string, unknown> | FormData | null,
   ): Promise<T> {
-    return $fetch<T>(`${config.public.apiBase}/api${path}`, {
+    return $fetch<T>(`${baseUrl}/api${path}`, {
       method: 'PUT',
       body,
       headers: getHeaders(),
@@ -59,7 +62,7 @@ export function useApi() {
     path: string,
     body?: Record<string, unknown> | FormData | null,
   ): Promise<T> {
-    return $fetch<T>(`${config.public.apiBase}/api${path}`, {
+    return $fetch<T>(`${baseUrl}/api${path}`, {
       method: 'PATCH',
       body,
       headers: getHeaders(),
@@ -67,7 +70,7 @@ export function useApi() {
   }
 
   async function del(path: string): Promise<void> {
-    await $fetch(`${config.public.apiBase}/api${path}`, {
+    await $fetch(`${baseUrl}/api${path}`, {
       method: 'DELETE',
       headers: getHeaders(),
     });

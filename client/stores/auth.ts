@@ -51,7 +51,8 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true;
       try {
         const config = useRuntimeConfig();
-        const data = await $fetch<AuthResponse>(`${config.public.apiBase}/api/auth/login`, {
+        const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
+        const data = await $fetch<AuthResponse>(`${baseUrl}/api/auth/login`, {
           method: 'POST',
           body: { email, password },
         });
@@ -66,7 +67,8 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true;
       try {
         const config = useRuntimeConfig();
-        const data = await $fetch<AuthResponse>(`${config.public.apiBase}/api/auth/register`, {
+        const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
+        const data = await $fetch<AuthResponse>(`${baseUrl}/api/auth/register`, {
           method: 'POST',
           body: { name, email, password },
         });
@@ -81,7 +83,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         if (this.token) {
           const config = useRuntimeConfig();
-          await $fetch(`${config.public.apiBase}/api/auth/logout`, {
+          const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
+          await $fetch(`${baseUrl}/api/auth/logout`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${this.token}` },
           });

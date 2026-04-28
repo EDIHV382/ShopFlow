@@ -111,12 +111,12 @@ export const useCartStore = defineStore('cart', {
      */
     async syncFromBackend(token: string) {
       const config = useRuntimeConfig();
+      const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
       this.syncing = true;
       try {
-        const backendCart = await $fetch<{ items: CartItem[] }>(
-          `${config.public.apiBase}/api/cart`,
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
+        const backendCart = await $fetch<{ items: CartItem[] }>(`${baseUrl}/api/cart`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         if (backendCart.items.length > 0) {
           // Merge: backend items win
