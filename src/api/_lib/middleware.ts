@@ -70,7 +70,7 @@ export function applyRateLimiter(
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  limiter((options) => {
+  limiter((options: { key?: string; skip?: () => boolean; request?: () => number }) => {
     options.key = key as string;
     options.skip = () => false;
     options.request = () => 1;

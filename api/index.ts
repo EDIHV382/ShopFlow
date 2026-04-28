@@ -109,7 +109,7 @@ import {
   updateOrderStatusSchema,
   cartItemSchema,
   updateCartItemSchema,
-} from './_lib/schemas';
+} from '../src/api/_lib/schemas';
 
 // Validation Middleware Helper
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
