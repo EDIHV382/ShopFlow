@@ -2,8 +2,8 @@
 // Verifies Stripe signature and updates order status on successful payment
 // NOTE: This endpoint must receive the raw body (not JSON-parsed) for signature verification
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { stripe, STRIPE_WEBHOOK_SECRET } from '../_lib/stripe';
-import { query } from '../_lib/db';
+import { stripe, STRIPE_WEBHOOK_SECRET } from '../../../_lib/stripe';
+import { query } from '../../../_lib/db';
 
 /**
  * Stripe webhook handler.

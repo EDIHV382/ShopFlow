@@ -1,9 +1,9 @@
 // GET /api/cart — get authenticated user's cart with items
 // DELETE /api/cart — clear the entire cart
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, queryOne } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAuth } from '../_lib/middleware';
-import type { Cart, CartItem } from '../_lib/types';
+import { query, queryOne } from '../../../_lib/db';
+import { setCorsHeaders, handleOptions, requireAuth } from '../../../_lib/middleware';
+import type { Cart, CartItem } from '../../../_lib/types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {

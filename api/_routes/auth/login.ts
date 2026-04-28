@@ -1,10 +1,10 @@
 // POST /api/auth/login
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { queryOne } from '../_lib/db';
-import { comparePassword, signToken } from '../_lib/auth';
-import { setCorsHeaders, handleOptions } from '../_lib/middleware';
+import { queryOne } from '../../../_lib/db';
+import { comparePassword, signToken } from '../../../_lib/auth';
+import { setCorsHeaders, handleOptions } from '../../../_lib/middleware';
 import { z } from 'zod';
-import type { User } from '../_lib/types';
+import type { User } from '../../../_lib/types';
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido'),

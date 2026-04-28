@@ -1,10 +1,10 @@
 // POST /api/stripe/create-payment-intent
 // Creates a Stripe PaymentIntent for the current cart total
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { stripe } from '../_lib/stripe';
-import { queryOne, query } from '../_lib/db';
-import { setCorsHeaders, handleOptions, requireAuth } from '../_lib/middleware';
-import type { Cart } from '../_lib/types';
+import { stripe } from '../../../_lib/stripe';
+import { queryOne, query } from '../../../_lib/db';
+import { setCorsHeaders, handleOptions, requireAuth } from '../../../_lib/middleware';
+import type { Cart } from '../../../_lib/types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
