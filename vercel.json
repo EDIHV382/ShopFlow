@@ -4,6 +4,11 @@
   "outputDirectory": "client/.output/public",
   "installCommand": "npm run install:all",
   "framework": "nuxtjs",
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "api/_routes/**/*"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",

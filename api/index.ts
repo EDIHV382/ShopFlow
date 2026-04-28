@@ -10,26 +10,26 @@ import pino from 'pino';
 import { z } from 'zod';
 
 // Import all route handlers
-import productsIndex from './products/index';
-import productsId from './products/[id]';
-import categoriesIndex from './categories/index';
-import categoriesId from './categories/[id]';
-import authLogin from './auth/login';
-import authRegister from './auth/register';
-import authMe from './auth/me';
-import authLogout from './auth/logout';
-import cartIndex from './cart/index';
-import cartItemsIndex from './cart/items/index';
-import cartItemsId from './cart/items/[id]';
-import ordersIndex from './orders/index';
-import ordersId from './orders/[id]';
-import adminDashboard from './admin/dashboard';
-import adminUsers from './admin/users';
-import adminOrdersIndex from './admin/orders/index';
-import adminOrdersStatus from './admin/orders/[id]/status';
-import adminSalesChart from './admin/sales-chart';
-import stripeCreatePaymentIntent from './stripe/create-payment-intent';
-import stripeWebhook from './stripe/webhook';
+import productsIndex from './_routes/products/index';
+import productsId from './_routes/products/[id]';
+import categoriesIndex from './_routes/categories/index';
+import categoriesId from './_routes/categories/[id]';
+import authLogin from './_routes/auth/login';
+import authRegister from './_routes/auth/register';
+import authMe from './_routes/auth/me';
+import authLogout from './_routes/auth/logout';
+import cartIndex from './_routes/cart/index';
+import cartItemsIndex from './_routes/cart/items/index';
+import cartItemsId from './_routes/cart/items/[id]';
+import ordersIndex from './_routes/orders/index';
+import ordersId from './_routes/orders/[id]';
+import adminDashboard from './_routes/admin/dashboard';
+import adminUsers from './_routes/admin/users';
+import adminOrdersIndex from './_routes/admin/orders/index';
+import adminOrdersStatus from './_routes/admin/orders/[id]/status';
+import adminSalesChart from './_routes/admin/sales-chart';
+import stripeCreatePaymentIntent from './_routes/stripe/create-payment-intent';
+import stripeWebhook from './_routes/stripe/webhook';
 
 const logger = pino({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
