@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "CommonJS",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": true,
+    "paths": { "@api/*": ["api/*"], "@client/*": ["client/*"], "@src/*": ["src/*"] },
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "strict": true,
+    "target": "ES2022"
   },
-  "include": ["server-logic/**/*", "api/**/*"]
+  "include": ["api/**/*", "src/**/*"]
 }

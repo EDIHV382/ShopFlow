@@ -1,19 +1,21 @@
 // POST /api/auth/logout
 // JWT is stateless — logout is handled client-side by deleting the token.
 // This endpoint exists for API completeness and future token blacklist support.
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { setCorsHeaders, handleOptions } from '../_lib/middleware';
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { setCorsHeaders, handleOptions } from '../_lib/middleware'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) {
-    return;
+    return
   }
-  setCorsHeaders(res);
+  setCorsHeaders(res)
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método no permitido' });
+    return res.status(405).json({ error: 'Método no permitido' })
   }
 
-  // Client should delete the JWT from storage
-  return res.status(200).json({ message: 'Sesión cerrada correctamente' });
+  // Clear the HttpOnly cookie
+  res.setHeader('Set-Cookie', ['shopflow_token=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0'])
+
+  return res.status(200).json({ message: 'Sesión cerrada correctamente' })
 }

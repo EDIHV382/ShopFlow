@@ -1,6 +1,6 @@
 // Root ESLint configuration for ShopFlow monorepo
 // Covers: API (JS/CommonJS), Client (Vue 3 + TypeScript)
-'use strict';
+'use strict'
 
 module.exports = {
   root: true,
@@ -29,7 +29,7 @@ module.exports = {
         'client/**/*.tsx',
         'scripts/**/*.ts',
         'api/**/*.ts',
-        'server-logic/**/*.ts',
+        'src/**/*.ts',
         '*.ts',
         'tests/**/*.ts',
         'e2e/**/*.ts',
@@ -58,11 +58,7 @@ module.exports = {
         sourceType: 'module',
       },
       plugins: ['@typescript-eslint', 'vue'],
-      extends: [
-        'eslint:recommended',
-        'plugin:vue/vue3-essential',
-        'plugin:@typescript-eslint/recommended',
-      ],
+      extends: ['eslint:recommended', 'plugin:vue/vue3-essential', 'plugin:@typescript-eslint/recommended'],
       rules: {
         'vue/multi-word-component-names': 'off',
         'vue/no-v-html': 'warn',
@@ -115,4 +111,4 @@ module.exports = {
     'yarn.lock',
     'package-lock.json',
   ],
-};
+}

@@ -1,11 +1,11 @@
 // Auth store — manages JWT token, user state, login/logout/register
-import { defineStore } from 'pinia';
-import type { User, AuthResponse } from '~/types';
+import { defineStore } from 'pinia'
+import type { User, AuthResponse } from '~/types'
 
 interface AuthState {
-  user: User | null;
-  token: string | null;
-  loading: boolean;
+  user: User | null
+  token: string | null
+  loading: boolean
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -22,87 +22,76 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    /** Initialize from localStorage on app load */
-    init() {
+    /** Initialize from cookies on app load */
+    async init() {
       if (process.client) {
-        const stored = localStorage.getItem('shopflow_token');
-        const user = localStorage.getItem('shopflow_user');
-        if (stored && user) {
-          this.token = stored;
-          try {
-            this.user = JSON.parse(user);
-          } catch {
-            this.clear();
-          }
+        try {
+          const config = useRuntimeConfig()
+          const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase
+          const data = await $fetch<AuthResponse>(`${baseUrl}/api/auth/me`)
+          this.user = data.user
+          this.token = 'cookie-auth' // Token is managed by HttpOnly cookie
+        } catch {
+          this.clear()
         }
       }
     },
 
     setAuth(data: AuthResponse) {
-      this.token = data.token;
-      this.user = data.user;
-      if (process.client) {
-        localStorage.setItem('shopflow_token', data.token);
-        localStorage.setItem('shopflow_user', JSON.stringify(data.user));
-      }
+      this.user = data.user
+      this.token = 'cookie-auth' // Token is managed by HttpOnly cookie
     },
 
     async login(email: string, password: string) {
-      this.loading = true;
+      this.loading = true
       try {
-        const config = useRuntimeConfig();
-        const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
+        const config = useRuntimeConfig()
+        const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase
         const data = await $fetch<AuthResponse>(`${baseUrl}/api/auth/login`, {
           method: 'POST',
           body: { email, password },
-        });
-        this.setAuth(data);
-        return data;
+        })
+        this.setAuth(data)
+        return data
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
 
     async register(name: string, email: string, password: string) {
-      this.loading = true;
+      this.loading = true
       try {
-        const config = useRuntimeConfig();
-        const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
+        const config = useRuntimeConfig()
+        const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase
         const data = await $fetch<AuthResponse>(`${baseUrl}/api/auth/register`, {
           method: 'POST',
           body: { name, email, password },
-        });
-        this.setAuth(data);
-        return data;
+        })
+        this.setAuth(data)
+        return data
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
 
     async logout() {
       try {
-        if (this.token) {
-          const config = useRuntimeConfig();
-          const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase;
-          await $fetch(`${baseUrl}/api/auth/logout`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${this.token}` },
-          });
-        }
+        const config = useRuntimeConfig()
+        const baseUrl = process.env.NODE_ENV === 'production' ? '' : config.public.apiBase
+        await $fetch(`${baseUrl}/api/auth/logout`, {
+          method: 'POST',
+        })
       } catch {
         // Ignore logout errors — clear anyway
       } finally {
-        this.clear();
+        this.clear()
       }
     },
 
     clear() {
-      this.user = null;
-      this.token = null;
-      if (process.client) {
-        localStorage.removeItem('shopflow_token');
-        localStorage.removeItem('shopflow_user');
-      }
+      this.user = null
+      this.token = null
+      // No need to clear localStorage as we're using HttpOnly cookies
     },
   },
-});
+})

@@ -1,0 +1,5 @@
+dist/
+client/.output/
+client/.nuxt/
+node_modules/
+*.lock

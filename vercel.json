@@ -5,8 +5,8 @@
   "installCommand": "npm run install:all",
   "framework": "nuxtjs",
   "functions": {
-    "api/index.ts": {
-      "includeFiles": "src/api/**/*"
+    "api/**/*.ts": {
+      "includeFiles": "api/**/*"
     }
   },
   "rewrites": [
