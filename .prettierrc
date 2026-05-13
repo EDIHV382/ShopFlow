@@ -1,1 +1,16 @@
-{"printWidth":120,"semi":false,"singleQuote":true,"tabWidth":2,"trailingComma":"es5","vueIndentScriptAndStyle":false}
+{
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 120,
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "client/**/*.vue",
+      "options": {
+        "semi": false
+      }
+    }
+  ]
+}

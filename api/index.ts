@@ -9,27 +9,26 @@ import pinoHttp from 'pino-http';
 import pino from 'pino';
 import { z } from 'zod';
 
-// Import all route handlers
-import productsIndex from '../src/api/products/index';
-import productsId from '../src/api/products/[id]';
-import categoriesIndex from '../src/api/categories/index';
-import categoriesId from '../src/api/categories/[id]';
-import authLogin from '../src/api/auth/login';
-import authRegister from '../src/api/auth/register';
-import authMe from '../src/api/auth/me';
-import authLogout from '../src/api/auth/logout';
-import cartIndex from '../src/api/cart/index';
-import cartItemsIndex from '../src/api/cart/items/index';
-import cartItemsId from '../src/api/cart/items/[id]';
-import ordersIndex from '../src/api/orders/index';
-import ordersId from '../src/api/orders/[id]';
-import adminDashboard from '../src/api/admin/dashboard';
-import adminUsers from '../src/api/admin/users';
-import adminOrdersIndex from '../src/api/admin/orders/index';
-import adminOrdersStatus from '../src/api/admin/orders/[id]/status';
-import adminSalesChart from '../src/api/admin/sales-chart';
-import stripeCreatePaymentIntent from '../src/api/stripe/create-payment-intent';
-import stripeWebhook from '../src/api/stripe/webhook';
+import productsIndex from './products/index';
+import productsId from './products/[id]';
+import categoriesIndex from './categories/index';
+import categoriesId from './categories/[id]';
+import authLogin from './auth/login';
+import authRegister from './auth/register';
+import authMe from './auth/me';
+import authLogout from './auth/logout';
+import cartIndex from './cart/index';
+import cartItemsIndex from './cart/items/index';
+import cartItemsId from './cart/items/[id]';
+import ordersIndex from './orders/index';
+import ordersId from './orders/[id]';
+import adminDashboard from './admin/dashboard';
+import adminUsers from './admin/users';
+import adminOrdersIndex from './admin/orders/index';
+import adminOrdersStatus from './admin/orders/[id]/status';
+import adminSalesChart from './admin/sales-chart';
+import stripeCreatePaymentIntent from './stripe/create-payment-intent';
+import stripeWebhook from './stripe/webhook';
 
 const logger = pino({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
@@ -46,7 +45,7 @@ app.use(
   cors({
     origin: origin,
     credentials: true,
-  }),
+  })
 );
 
 // Request Logging
@@ -55,7 +54,7 @@ app.use(
     logger,
     customProps: () => ({ context: 'API-Request' }),
     redact: ['req.headers.authorization', 'req.headers.cookie'],
-  }),
+  })
 );
 
 // General Rate Limiting
@@ -102,14 +101,13 @@ function adapt(handler: any, idParamName: string = 'id') {
 }
 
 import {
-  registerSchema,
-  loginSchema,
-  productSchema,
-  createOrderSchema,
-  updateOrderStatusSchema,
-  cartItemSchema,
-  updateCartItemSchema,
-} from '../src/api/_lib/schemas';
+  RegisterSchema as registerSchema,
+  LoginSchema as loginSchema,
+  CreateProductSchema as productSchema,
+  UpdateOrderStatusSchema as updateOrderStatusSchema,
+  AddToCartSchema as cartItemSchema,
+  UpdateCartSchema as updateCartItemSchema,
+} from './_lib/schemas';
 
 // Validation Middleware Helper
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -148,32 +146,24 @@ app.put('/api/cart/items/:id', validateBody(updateCartItemSchema), adapt(cartIte
 app.delete('/api/cart/items/:id', adapt(cartItemsId));
 
 app.get('/api/orders', adapt(ordersIndex));
-app.post('/api/orders', validateBody(createOrderSchema), adapt(ordersIndex));
+app.post('/api/orders', adapt(ordersIndex));
 app.get('/api/orders/:id', adapt(ordersId));
 
 app.get('/api/admin/dashboard', adapt(adminDashboard));
 app.get('/api/admin/users', adapt(adminUsers));
 app.get('/api/admin/orders', adapt(adminOrdersIndex));
-app.patch(
-  '/api/admin/orders/:id/status',
-  validateBody(updateOrderStatusSchema),
-  adapt(adminOrdersStatus),
-);
+app.patch('/api/admin/orders/:id/status', validateBody(updateOrderStatusSchema), adapt(adminOrdersStatus));
 app.get('/api/admin/sales-chart', adapt(adminSalesChart));
 
 app.post('/api/stripe/create-payment-intent', adapt(stripeCreatePaymentIntent));
 
 // Catch 404
-app.all(/^.*$/, (req: express.Request, res: express.Response) =>
-  res.status(404).json({ error: 'Ruta no encontrada' }),
-);
+app.all(/^.*$/, (req: express.Request, res: express.Response) => res.status(404).json({ error: 'Ruta no encontrada' }));
 
 // Centralized Error Handler
-app.use(
-  (err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    logger.error({ err }, 'Unhandled API Error');
-    res.status(500).json({ error: 'Internal Server Error', code: 'INTERNAL_ERROR' });
-  },
-);
+app.use((err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  logger.error({ err }, 'Unhandled API Error');
+  res.status(500).json({ error: 'Internal Server Error', code: 'INTERNAL_ERROR' });
+});
 
 export default app;

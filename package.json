@@ -12,7 +12,7 @@
     "db:seed": "tsx api/_lib/seed.ts",
     "lint": "eslint . --ext .js,.cjs,.ts,.vue --ignore-path .gitignore",
     "format": "prettier --write .",
-    "test:unit": "vitest run",
+    "test:unit": "vitest run --config vitest.config.ts",
     "test:e2e": "playwright test",
     "prepare": "husky"
   },

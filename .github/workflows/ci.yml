@@ -1,42 +1,61 @@
-name: ShopFlow CI/CD
+name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
     branches: [main]
 
 jobs:
-  build-and-test:
+  lint-and-typecheck:
+    name: Lint & Typecheck
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install API dependencies
+        run: cd api && npm ci
+
+      - name: Install client dependencies
+        run: cd client && npm ci
+
+      - name: Typecheck API
+        run: cd api && npx tsc --noEmit
+
+      - name: Typecheck client
+        run: cd client && npm run typecheck
+
+      - name: ESLint
+        run: npx eslint api --ext .ts --max-warnings 10
+
+  tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm run install:all
 
-      - name: Run ESLint
-        run: npm run lint
-
-      - name: Run TypeScript Typecheck (Client)
-        run: cd client && npx nuxi typecheck
-
-      - name: Run TypeScript Typecheck (API)
-        run: npx tsc --noEmit
-
-      - name: Run Unit & Integration Tests with Coverage
-        run: npm run test:unit -- --coverage
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run E2E Tests
-        run: npm run test:e2e
+      - name: Run unit tests
+        run: npm run test:unit

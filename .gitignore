@@ -10,14 +10,12 @@ vendor/
 
 # Build outputs
 dist/
+.output/
+.nuxt/
 client/.output/
 client/.nuxt/
 client/dist/
-
-# Symfony
-server/var/
-server/config/jwt/private.pem
-server/config/jwt/public.pem
+legacy/
 
 # Logs
 *.log
@@ -38,6 +36,3 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
-
-.vercel
-.env*.local

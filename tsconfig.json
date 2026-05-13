@@ -5,11 +5,14 @@
     "forceConsistentCasingInFileNames": true,
     "module": "CommonJS",
     "moduleResolution": "node",
-    "paths": { "@api/*": ["api/*"], "@client/*": ["client/*"], "@src/*": ["src/*"] },
+    "paths": {
+      "@api/*": ["api/*"],
+      "@client/*": ["client/*"]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022"
   },
-  "include": ["api/**/*", "src/**/*"]
+  "include": ["api/**/*"]
 }

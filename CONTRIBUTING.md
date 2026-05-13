@@ -32,11 +32,10 @@ Thank you for your interest in contributing to ShopFlow! This document provides 
 
 ```
 ShopFlow/
-+-- api/              # Backend API (Express + TypeScript)
-+-- client/           # Frontend (Nuxt 3 + Vue 3)
-+-- src/api/          # API route handlers
-+-- docs/             # Documentation
-+-- e2e/              # End-to-end tests
++-- api/             # Backend API (Express monolito + handlers)
++-- client/          # Frontend (Nuxt 3 + Vue 3)
++-- e2e/             # End-to-end tests
++-- tests/           # Unit tests
 ```
 
 ## Code Style
