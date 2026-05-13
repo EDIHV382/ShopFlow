@@ -7,10 +7,6 @@
   "functions": {
     "api/**/*.ts": {
       "includeFiles": "api/**/*"
-    },
-    "api/stripe/webhook.ts": {
-      "memory": 128,
-      "maxDuration": 10
     }
   },
   "rewrites": [{ "source": "/api/(.*)", "destination": "/api/index.ts" }],
